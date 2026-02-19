@@ -38,6 +38,7 @@ export const GradientTransition = () => {
     // Blocks grow from 0 to full height as user scrolls
     const blockScale = useTransform(scrollYProgress, [0, 0.4, 0.6], [0, 0.8, 1]);
     const sectionOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+    const blockOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 0.75]);
 
     return (
         <section
@@ -63,10 +64,12 @@ export const GradientTransition = () => {
                         className="flex-shrink-0"
                         style={{
                             width: `${block.width}px`,
-                            height: useTransform(blockScale, (v) => `${block.maxHeight * v}px`),
+                            height: `${block.maxHeight}px`,
+                            scaleY: blockScale,
+                            transformOrigin: "bottom",
                             backgroundColor: `hsl(${block.hue}, ${block.sat}%, 78%)`,
                             marginRight: "2px",
-                            opacity: useTransform(scrollYProgress, [0.05, 0.25], [0, 0.75]),
+                            opacity: blockOpacity,
                         }}
                     />
                 ))}
@@ -103,7 +106,7 @@ export const GradientTransition = () => {
                         style={{ letterSpacing: "1.5px" }}
                     >
                         <span className="w-[6px] h-[6px] bg-black inline-block" />
-                        INDUSTRIES
+                        FEATURES
                     </span>
                     <h2
                         style={{
@@ -114,9 +117,9 @@ export const GradientTransition = () => {
                             color: "#000",
                         }}
                     >
-                        Unlock document
+                        Explore the
                         <br />
-                        automation across industries
+                        features
                     </h2>
                 </motion.div>
             </div>
