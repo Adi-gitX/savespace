@@ -1,5 +1,9 @@
-
-
+/**
+ * DiskBlockVisual Component
+ * 
+ * Visualizes the disk as a grid of blocks.
+ * Shows free/used state and highlights blocks belonging to selected file.
+ */
 
 import { BLOCK_SIZE, Disk, Inode } from '@/types/filesystem';
 
@@ -14,135 +18,159 @@ interface DiskBlockVisualProps {
     usedSizeKB: number;
     freeSizeKB: number;
   } | null;
+  fragmentation: number;
 }
 
-export function DiskBlockVisual({ disk, selectedFile, diskStats }: DiskBlockVisualProps) {
+export function DiskBlockVisual({ disk, selectedFile, diskStats, fragmentation }: DiskBlockVisualProps) {
   if (!disk || !diskStats) {
     return (
-      <div className="p-8 text-gray-400 text-sm font-mono uppercase tracking-widest text-center">
-        Initialize Disk...
+      <div className="p-4 text-muted-foreground text-sm">
+        Loading disk...
       </div>
     );
   }
 
   const selectedBlockIds = new Set(selectedFile?.blockPointers ?? []);
-
-
+  
+  // Also include the index block if it exists (for indexed allocation)
   if (selectedFile?.indexBlockId !== null && selectedFile?.indexBlockId !== undefined) {
     selectedBlockIds.add(selectedFile.indexBlockId);
   }
 
   return (
-    <div className="flex flex-col h-full bg-white">
-
-      <div className="flex items-center justify-between px-6 py-3 border-b border-black">
-        <span className="text-[11px] font-bold uppercase tracking-[0.15em] flex items-center gap-2">
-          <span className="w-2 h-2 bg-black inline-block" />
-          DISK VISUALIZATION
-        </span>
-
-        <div className="flex items-center gap-6 text-[11px] font-mono text-gray-500 uppercase tracking-wider">
-          <span className="flex items-center gap-2">
-            <span className="text-black font-bold">{diskStats.usedBlocks}</span> USED
+    <div className="flex flex-col h-full">
+      <div className="panel-header flex items-center justify-between">
+        <span>Disk Blocks</span>
+        <div className="flex items-center gap-4 text-xs font-normal normal-case tracking-normal">
+          <span>
+            <span className="font-mono">{diskStats.usedBlocks}</span> used
           </span>
-          <span className="flex items-center gap-2">
-            <span className="text-black font-bold">{diskStats.freeBlocks}</span> FREE
+          <span>
+            <span className="font-mono">{diskStats.freeBlocks}</span> free
           </span>
-          <span className="hidden sm:inline-flex items-center gap-2">
-            BLOCK SIZE: <span className="text-black">{BLOCK_SIZE / 1024}KB</span>
+          <span>
+            Block size: <span className="font-mono">{BLOCK_SIZE / 1024}KB</span>
+          </span>
+          <span className={fragmentation > 30 ? "text-red-500 font-medium" : ""}>
+            Frag: <span className="font-mono">{fragmentation}%</span>
           </span>
         </div>
       </div>
+      
+      <div className="flex-1 overflow-auto p-4">
+        {/* Legend */}
+        <div className="flex items-center gap-4 mb-4 text-xs">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border border-block-border bg-block-free" />
+            <span>Free</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border border-block-border bg-block-used" />
+            <span>Used</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border border-block-border bg-block-selected" />
+            <span>Selected File</span>
+          </div>
+          {(selectedFile?.allocationStrategy === 'indexed' || selectedFile?.allocationStrategy === 'unix') && (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-primary bg-indigo-100 dark:bg-indigo-900" />
+              <span>Index Block</span>
+            </div>
+          )}
+          {selectedFile?.allocationStrategy === 'linked' && (
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono border px-1 rounded">1→2</span>
+              <span>Link Order</span>
+            </div>
+          )}
+          {selectedFile?.allocationStrategy === 'fat' && (
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono border border-orange-400 px-1 rounded text-orange-700 dark:text-orange-300">FAT</span>
+              <span>FAT Chain</span>
+            </div>
+          )}
+        </div>
 
-      <div className="flex-1 flex flex-col p-6 overflow-hidden">
-
-
-        <div className="flex-1 overflow-auto pr-2 pb-2">
-          <div className="flex flex-wrap gap-[2px]">
-            {disk.blocks.map((block) => {
-              const isSelected = selectedBlockIds.has(block.id);
-              const isUsed = block.used;
-
-              let blockClass = 'w-6 h-6 flex items-center justify-center text-[9px] font-mono transition-all duration-300 relative';
-              let content = null;
-
-              if (isSelected) {
-
-                blockClass += ' bg-black text-white font-bold z-10 scale-110 shadow-lg';
-
-                if (selectedFile?.allocationStrategy === 'indexed' || selectedFile?.allocationStrategy === 'unix') {
-                  if (block.blockType === 'index' || block.id === selectedFile.indexBlockId) {
-                    blockClass = 'w-6 h-6 flex items-center justify-center text-[8px] font-mono bg-indigo-600 text-white font-bold z-20 scale-125 border border-white ring-1 ring-indigo-600';
-                    content = 'IDX';
-                  }
-                } else if (selectedFile?.allocationStrategy === 'linked') {
-
-                  const index = selectedFile.blockPointers.indexOf(block.id);
-                  if (index !== -1) {
-                    content = index + 1;
-                  }
+        {/* Block Grid */}
+        <div className="flex flex-wrap gap-1">
+          {disk.blocks.map((block) => {
+            const isSelected = selectedBlockIds.has(block.id);
+            const isUsed = block.used;
+            
+            let blockClass = 'disk-block flex items-center justify-center text-[10px] font-mono transition-all';
+            let content = null;
+            const style = {};
+            
+            if (isSelected) {
+              blockClass += ' bg-block-selected text-white';
+              
+              if (selectedFile?.allocationStrategy === 'indexed' || selectedFile?.allocationStrategy === 'unix') {
+                if (block.blockType === 'index' || block.id === selectedFile.indexBlockId) {
+                  blockClass = 'disk-block flex items-center justify-center text-[10px] font-mono transition-all border-2 border-primary bg-indigo-100 text-indigo-900 font-bold';
+                  content = 'IDX';
                 }
-              } else if (isUsed) {
-
-                const gradientIndex = block.id % 5;
-                if (gradientIndex === 0) blockClass += ' bg-blue-100/80 hover:bg-blue-200 text-blue-900/0 hover:text-blue-900';
-                else if (gradientIndex === 1) blockClass += ' bg-purple-100/80 hover:bg-purple-200 text-purple-900/0 hover:text-purple-900';
-                else if (gradientIndex === 2) blockClass += ' bg-pink-100/80 hover:bg-pink-200 text-pink-900/0 hover:text-pink-900';
-                else if (gradientIndex === 3) blockClass += ' bg-orange-100/80 hover:bg-orange-200 text-orange-900/0 hover:text-orange-900';
-                else blockClass += ' bg-gray-200/80 hover:bg-gray-300 text-gray-900/0 hover:text-gray-900';
-              } else {
-
-                blockClass += ' bg-white border border-gray-100 hover:border-gray-300';
+              } else if (selectedFile?.allocationStrategy === 'linked') {
+                 // Find index in block pointers
+                 const index = selectedFile.blockPointers.indexOf(block.id);
+                 if (index !== -1) {
+                   content = index + 1;
+                 }
+              } else if (selectedFile?.allocationStrategy === 'fat') {
+                // Show cluster chain position for FAT allocation
+                const index = selectedFile.blockPointers.indexOf(block.id);
+                if (index !== -1) {
+                  blockClass = 'disk-block flex items-center justify-center text-[10px] font-mono transition-all border-2 border-orange-400 bg-orange-100 text-orange-900 font-bold dark:bg-orange-900 dark:text-orange-100';
+                  content = index + 1;
+                }
               }
+            } else if (isUsed) {
+              blockClass += ' bg-block-used';
+            } else {
+              blockClass += ' bg-block-free';
+            }
+            
+            return (
+              <div
+                key={block.id}
+                className={blockClass}
+                style={style}
+                title={`Block ${block.id}${
+                  block.inodeId !== null ? ` (Inode ${block.inodeId})` : ' (Free)'
+                }${
+                  block.fatNextBlock !== undefined
+                    ? ` → FAT: ${block.fatNextBlock === -1 ? 'EOF' : block.fatNextBlock}`
+                    : ''
+                }`}
+              >
+                {content}
+                <span className="sr-only">Block {block.id}</span>
+              </div>
+            );
+          })}
+        </div>
 
-              return (
-                <div
-                  key={block.id}
-                  className={blockClass}
-                  title={`Block ${block.id}${block.inodeId !== null ? ` (Inode ${block.inodeId})` : ' (Free)'}`}
-                >
-                  {content}
-                </div>
-              );
-            })}
+        {/* Usage Bar */}
+        <div className="mt-4 space-y-2">
+          <div className="h-2 bg-block-free rounded overflow-hidden">
+            <div
+              className="h-full bg-block-used transition-all duration-300"
+              style={{ width: `${(diskStats.usedBlocks / diskStats.totalBlocks) * 100}%` }}
+            />
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>{diskStats.usedSizeKB} KB used</span>
+            <span>{diskStats.freeSizeKB} KB free of {diskStats.totalSizeKB} KB</span>
           </div>
         </div>
 
-
-        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between gap-6">
-
-
-          <div className="flex items-center gap-6 text-[10px] uppercase tracking-widest font-bold text-gray-500">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border border-gray-200 bg-white" />
-              <span>Free</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-gradient-to-br from-blue-100 to-purple-100" />
-              <span>Used</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-black" />
-              <span className="text-black">Selected</span>
-            </div>
-            {(selectedFile?.allocationStrategy === 'indexed' || selectedFile?.allocationStrategy === 'unix') && (
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-indigo-600" />
-                <span className="text-indigo-600">Index</span>
-              </div>
-            )}
-          </div>
-
-
-          <div className="flex-1 max-w-xs flex flex-col items-end gap-1">
-            <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-black transition-all duration-500"
-                style={{ width: `${(diskStats.usedBlocks / diskStats.totalBlocks) * 100}%` }}
-              />
-            </div>
-          </div>
-
+        {/* Concept Note */}
+        <div className="mt-4 pt-4 border-t">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <strong>Disk Block Allocation:</strong> Files are stored in fixed-size blocks.
+            A 10KB file needs 3 blocks (4KB each = 12KB allocated). The bitmap tracks
+            which blocks are free (0) or used (1) for O(1) allocation lookups.
+          </p>
         </div>
       </div>
     </div>

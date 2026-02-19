@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { AllocationStrategy } from '@/types/filesystem';
-import { AlertCircle, FileDigit, Grid3X3, Layers, Link } from 'lucide-react';
+import { AlertCircle, FileDigit, Grid3X3, Layers, Link, Table2 } from 'lucide-react';
 
 interface AllocationStrategySelectorProps {
   currentStrategy: AllocationStrategy;
@@ -106,6 +106,25 @@ export function AllocationStrategySelector({
                  Hybrid: Direct pointers for small files, Indirect for large files.
                  <span className="block mt-1 text-xs text-purple-600/80 font-medium">
                    Scalable & Standard
+                 </span>
+               </p>
+             </div>
+          </div>
+
+          <div className={`
+            flex items-start space-x-3 rounded-md border p-2 transition-all cursor-pointer hover:bg-muted/50
+            ${currentStrategy === 'fat' ? 'border-primary bg-primary/5' : 'border-transparent'}
+          `}>
+             <RadioGroupItem value="fat" id="fat" className="mt-1" />
+             <div className="grid gap-1.5 flex-1">
+               <Label htmlFor="fat" className="font-medium cursor-pointer flex items-center gap-2">
+                 <Table2 className="w-3.5 h-3.5" />
+                 FAT (File Allocation Table)
+               </Label>
+               <p className="text-xs text-muted-foreground leading-relaxed">
+                 Chain stored in a global table; blocks hold only data. Each directory entry records the first cluster.
+                 <span className="block mt-1 text-xs text-orange-600/80 font-medium">
+                   Issue: FAT table can be a bottleneck
                  </span>
                </p>
              </div>
