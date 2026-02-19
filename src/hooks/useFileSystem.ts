@@ -1,4 +1,9 @@
-
+/**
+ * useFileSystem Hook
+ * 
+ * React hook that manages the file system state and provides
+ * methods for all file operations. Handles persistence automatically.
+ */
 
 import {
     calculateFragmentation,
@@ -29,7 +34,7 @@ export function useFileSystem() {
   const [selectedFileId, setSelectedFileId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  
+  // Initialize on mount
   useEffect(() => {
     const loaded = loadFromStorage();
     if (loaded) {
@@ -39,7 +44,7 @@ export function useFileSystem() {
     }
   }, []);
 
-  
+  // Save to storage whenever state changes
   useEffect(() => {
     if (state) {
       saveToStorage(state);
@@ -53,7 +58,7 @@ export function useFileSystem() {
     
     try {
       const newState = { ...state };
-      
+      // We need to clone the maps to trigger React updates
       newState.inodes = new Map(state.inodes);
       newState.directories = new Map(state.directories);
       newState.disk = {
@@ -114,7 +119,7 @@ export function useFileSystem() {
         freeBlockBitmap: [...state.disk.freeBlockBitmap],
       };
       
-      
+      // Find the entry to check if it's the selected file
       const dir = newState.directories.get(selectedDirId);
       const entry = dir?.entries.find(e => e.name === name);
       if (entry && entry.inodeId === selectedFileId) {
@@ -150,9 +155,9 @@ export function useFileSystem() {
     if (!state) return;
     
     const newState = { ...state };
-    
-    
-    
+    // Create shallow copies of maps if needed, but for simple property change
+    // a shallow copy of state object is enough to trigger re-render
+    // provided we don't mutate deeply nested objects that purely depend on reference identity
     
     switchAllocationStrategy(newState, strategy);
     setState(newState);
@@ -171,20 +176,20 @@ export function useFileSystem() {
     }
   }, [state]);
 
-  
+  // Computed values
   const currentDirectory = state?.directories.get(selectedDirId) ?? null;
   const selectedFile = selectedFileId ? state?.inodes.get(selectedFileId) ?? null : null;
   const diskStats = state ? getDiskStats(state) : null;
   
-  
+  // Get file name for selected file
   const selectedFileName = selectedFileId && currentDirectory
     ? currentDirectory.entries.find(e => e.inodeId === selectedFileId)?.name ?? null
     : null;
   
-  
+  // Get current path
   const currentPath = state ? getPath(state, selectedDirId) : '/';
   
-  
+  // Calculate fragmentation
   const fragmentation = state ? calculateFragmentation(state.disk) : 0;
 
   return {
