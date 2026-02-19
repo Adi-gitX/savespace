@@ -1,21 +1,10 @@
 import { motion } from "framer-motion";
-import { Play, Quote, ChevronLeft, ChevronRight } from "lucide-react";
-
-/* ───────── Logo cloud at bottom ───────── */
-const logoCloud = [
-    { name: "LexisNexis", cls: "italic font-medium text-[12px]" },
-    { name: "Foxen", cls: "font-extrabold text-[16px]" },
-    { name: "ManpowerGroup", cls: "font-medium text-[11px]" },
-    { name: "MICHELIN", cls: "font-bold tracking-[0.2em] text-[11px]" },
-    { name: "pepsi", cls: "font-bold italic text-[13px]" },
-    { name: "Rakuten", cls: "font-extrabold tracking-tight text-[16px]" },
-    { name: "bp", cls: "font-bold text-[16px]" },
-];
+import { BookOpen } from "lucide-react";
 
 export const Testimonials = () => {
     return (
         <section className="py-24 bg-white relative overflow-hidden">
-            <div style={{ margin: "0 40px" }}>
+            <div className="px-4 sm:px-6 lg:px-10">
                 {/* Section label */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -28,13 +17,13 @@ export const Testimonials = () => {
                         style={{ letterSpacing: "1.5px" }}
                     >
                         <span className="w-[6px] h-[6px] bg-black inline-block" />
-                        TESTIMONIALS
+                        SEE IT IN ACTION
                     </span>
                 </motion.div>
 
-                {/* Two-column: Video Left + Quote Right */}
-                <div className="flex flex-col lg:flex-row gap-10 max-w-6xl mx-auto">
-                    {/* Left: CEMEX Video */}
+                {/* Two-column: Video Left + Info Right */}
+                <div className="flex flex-col lg:flex-row gap-10 max-w-[1400px] mx-auto">
+                    {/* Left: Demo Video */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -43,41 +32,41 @@ export const Testimonials = () => {
                         className="flex-1"
                     >
                         <div
-                            className="relative overflow-hidden cursor-pointer group"
+                            className="relative overflow-hidden"
                             style={{ aspectRatio: "16/10", backgroundColor: "#0f172a" }}
                         >
+                            {/* Video */}
+                            <video
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="absolute inset-0 w-full h-full object-cover"
+                            >
+                                <source
+                                    src="/assets/SaveSpace%20AI%20Agents%20for%20Document%20OCR%20Workflows.webm"
+                                    type="video/webm"
+                                />
+                            </video>
+
                             {/* Gradient overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-blue-900/20 to-purple-900/20 z-10" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent z-10" />
 
-                            {/* Placeholder image (dark themed) */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
-                                <div className="text-center z-10">
-                                    <div className="text-[11px] text-white/50 uppercase tracking-widest mb-2">
-                                        CEMEX
-                                    </div>
-                                </div>
+                            <div className="absolute top-4 right-4 z-20 bg-black/45 text-white text-[11px] uppercase tracking-[0.08em] px-2.5 py-1 border border-white/25">
+                                Autoplay Preview
                             </div>
 
-                            {/* Play button */}
-                            <div className="absolute inset-0 flex items-center justify-center z-20">
-                                <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-300">
-                                    <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center pl-1 shadow-xl">
-                                        <Play className="w-6 h-6 text-slate-900 fill-slate-900" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Person info overlay */}
+                            {/* Bottom label */}
                             <div className="absolute bottom-4 left-4 z-20 text-white">
-                                <p className="text-[14px] font-medium">Daniel Garcia Zapata</p>
+                                <p className="text-[14px] font-medium">Watch SaveSpace in Action</p>
                                 <p className="text-[12px] text-white/70">
-                                    Senior Data Scientist at CEMEX
+                                    File organization & system visualization demo
                                 </p>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Right: Carlyle Quote */}
+                    {/* Right: What You'll Learn */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -85,64 +74,50 @@ export const Testimonials = () => {
                         transition={{ duration: 0.6, delay: 0.15 }}
                         className="flex-1 flex flex-col justify-center"
                     >
-                        <div className="bg-[#f1f5f9] p-10 h-full flex flex-col justify-between">
-                            {/* Logo / Company name */}
+                        <div className="bg-[#f8fafc] border border-gray-200 p-8 sm:p-10 h-full flex flex-col justify-between">
+                            {/* Title */}
                             <div className="mb-8">
-                                <span className="text-[22px] font-medium tracking-[0.25em] text-black">
-                                    CARLYLE
+                                <span className="text-[22px] font-medium tracking-tight text-black flex items-center gap-3">
+                                    <BookOpen className="w-6 h-6" />
+                                    What You'll Learn
                                 </span>
                             </div>
 
-                            {/* Quote */}
-                            <div className="flex-1 mb-8">
-                                <Quote className="w-8 h-8 text-gray-300 mb-4" />
-                                <blockquote className="text-[18px] text-gray-800 leading-[1.7] font-normal">
-                                    "SaveSpace has completely transformed how we handle unstructured
-                                    data. The accuracy and speed of their document parsing and
-                                    extraction capabilities are unmatched in the industry."
-                                </blockquote>
+                            {/* Learning points */}
+                            <div className="flex-1 mb-8 space-y-4">
+                                {[
+                                    {
+                                        title: "Contiguous Allocation",
+                                        desc: "Files stored in adjacent blocks — fast sequential access but suffers from external fragmentation.",
+                                    },
+                                    {
+                                        title: "Linked Allocation",
+                                        desc: "Blocks scattered anywhere, connected by pointers — eliminates external fragmentation but slow random access.",
+                                    },
+                                    {
+                                        title: "Indexed Allocation",
+                                        desc: "An index block stores pointers to all data blocks — efficient direct access with index overhead.",
+                                    },
+                                    {
+                                        title: "Unix Inode (Multi-level)",
+                                        desc: "Direct pointers for small files, indirect for large — the scalable, real-world standard.",
+                                    },
+                                ].map((item, i) => (
+                                    <div key={i}>
+                                        <h4 className="text-[16px] font-semibold text-black mb-1">{item.title}</h4>
+                                        <p className="text-[14px] text-gray-600 leading-relaxed">{item.desc}</p>
+                                    </div>
+                                ))}
                             </div>
 
-                            {/* Author */}
+                            {/* Footer */}
                             <div>
-                                <p className="text-[14px] font-medium text-black">Dean Barr</p>
-                                <p className="text-[12px] text-gray-500">
-                                    Applied AI Lead and Data Scientist
+                                <p className="text-[13px] text-gray-500 italic">
+                                    "The difference between a good programmer and a great one is understanding what happens beneath the abstractions."
                                 </p>
                             </div>
                         </div>
                     </motion.div>
-                </div>
-
-                {/* Navigation & Logo Strip */}
-                <div className="max-w-6xl mx-auto mt-10">
-                    {/* Nav arrows */}
-                    <div className="flex items-center gap-2 mb-8">
-                        <button
-                            className="w-10 h-10 flex items-center justify-center bg-white transition-colors hover:bg-gray-50"
-                            style={{ border: "1px solid #e7e7e7" }}
-                        >
-                            <ChevronLeft className="w-4 h-4 text-gray-600" />
-                        </button>
-                        <button
-                            className="w-10 h-10 flex items-center justify-center bg-white transition-colors hover:bg-gray-50"
-                            style={{ border: "1px solid #e7e7e7" }}
-                        >
-                            <ChevronRight className="w-4 h-4 text-gray-600" />
-                        </button>
-                    </div>
-
-                    {/* Logo strip */}
-                    <div className="flex items-center gap-6 sm:gap-10 flex-wrap pt-4" style={{ borderTop: "1px solid #e7e7e7" }}>
-                        {logoCloud.map((logo, i) => (
-                            <span
-                                key={i}
-                                className={`text-black/40 ${logo.cls} whitespace-nowrap hover:text-black/70 transition-colors cursor-pointer`}
-                            >
-                                {logo.name}
-                            </span>
-                        ))}
-                    </div>
                 </div>
             </div>
         </section>
