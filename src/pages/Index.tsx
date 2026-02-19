@@ -52,10 +52,10 @@ const Index = () => {
 
   return (
     <div className="h-screen flex flex-col bg-white text-black font-sans">
-      {/* Navbar */}
+      {}
       <Navbar />
 
-      {/* Toolbar */}
+      {}
       <div className="border-b border-black flex items-center justify-between px-6 py-3 bg-white z-10">
         <div className="flex items-center gap-4">
           <Popover>
@@ -122,7 +122,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Workspace */}
+      {}
       <div className="flex-1 flex flex-col min-h-0">
 
 
@@ -180,7 +180,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
+        {}
         <div className="h-72 flex-shrink-0 bg-white p-0">
           <DiskBlockVisual
             disk={state?.disk ?? null}

@@ -79,7 +79,7 @@ export const TextHoverEffect = ({
                 </mask>
             </defs>
 
-            {/* Always-visible vibrant gradient outline */}
+            {}
             <text
                 x="50%"
                 y="50%"
@@ -92,7 +92,7 @@ export const TextHoverEffect = ({
                 {text}
             </text>
 
-            {/* Animated stroke draw-in on load */}
+            {}
             <motion.text
                 x="50%"
                 y="50%"
@@ -113,7 +113,7 @@ export const TextHoverEffect = ({
                 {text}
             </motion.text>
 
-            {/* Hover glow — brighter gradient revealed by cursor mask */}
+            {}
             <text
                 x="50%"
                 y="50%"

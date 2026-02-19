@@ -25,7 +25,7 @@ const Counter = ({
                     (timestamp - start) / (duration * 1000),
                     1,
                 );
-                // Ease-out cubic
+                
                 const eased = 1 - Math.pow(1 - progress, 3);
                 setCount(Math.floor(eased * (to - from) + from));
                 if (progress < 1) {
@@ -66,14 +66,14 @@ const stats = [
 export const Stats = () => {
     return (
         <section className="relative py-32 bg-white overflow-hidden">
-            {/* Top gradient divider */}
+            {}
             <div
                 className="absolute top-0 left-0 right-0 h-[2px]"
                 style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #f97316)" }}
             />
 
             <div style={{ margin: "0 40px" }}>
-                {/* Heading */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +103,7 @@ export const Stats = () => {
                     </h2>
                 </motion.div>
 
-                {/* Stats Grid */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-0 max-w-5xl mx-auto">
                     {stats.map((stat, idx) => (
                         <motion.div
@@ -117,7 +117,7 @@ export const Stats = () => {
                                 borderRight: idx < stats.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none",
                             }}
                         >
-                            {/* Top accent line */}
+                            {}
                             <div
                                 className="absolute top-0 left-1/4 right-1/4 h-[2px]"
                                 style={{ background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)` }}

@@ -1,4 +1,4 @@
-/* Saprona custom font family (replacement for OverusedGrotesk) */
+
 @font-face {
   font-family: 'Saprona';
   src: url('/assets/font/Saprona-UltraLight.woff2') format('woff2'),
@@ -99,7 +99,7 @@
     --font-mono: 'Saprona';
   }
 
-  /* Exact LlamaIndex: zero border-radius everywhere */
+  
   *,
   *::before,
   *::after {
@@ -111,7 +111,7 @@
     font-family: var(--font-saprona);
   }
 
-  /* LlamaIndex heading styles */
+  
   h1 {
     font-family: var(--font-saprona);
     font-weight: 500;

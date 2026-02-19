@@ -50,7 +50,7 @@ export const WorkflowSteps = () => {
     return (
         <section className="py-32 bg-white overflow-hidden">
             <div className="container mx-auto px-4 sm:px-6">
-                {/* Section Header */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -66,14 +66,14 @@ export const WorkflowSteps = () => {
                     </h2>
                 </motion.div>
 
-                {/* Steps */}
+                {}
                 <div className="space-y-32 max-w-6xl mx-auto">
                     {steps.map((step, idx) => (
                         <div
                             key={idx}
                             className={`flex flex-col ${step.reverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-12 lg:gap-20`}
                         >
-                            {/* Text Side */}
+                            {}
                             <motion.div
                                 initial={{
                                     opacity: 0,
@@ -111,7 +111,7 @@ export const WorkflowSteps = () => {
                                 </p>
                             </motion.div>
 
-                            {/* Image Side */}
+                            {}
                             <motion.div
                                 initial={{
                                     opacity: 0,
@@ -123,7 +123,7 @@ export const WorkflowSteps = () => {
                                 className="flex-1 w-full"
                             >
                                 <div className="relative group">
-                                    {/* Glow */}
+                                    {}
                                     <div
                                         className={`absolute -inset-4 rounded-3xl blur-2xl opacity-30 transition-opacity duration-500 group-hover:opacity-50 ${idx === 0
                                                 ? "bg-blue-200"

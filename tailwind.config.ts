@@ -52,15 +52,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // LlamaIndex specific colors
+        
         llama: {
-          dark: "#0F172A", // Slate 900
-          blue: "#3B82F6", // Blue 500
-          purple: "#8B5CF6", // Violet 500
-          pink: "#EC4899", // Pink 500
-          orange: "#F97316", // Orange 500
-          text: "#1E293B", // Slate 800
-          muted: "#64748B", // Slate 500
+          dark: "#0F172A", 
+          blue: "#3B82F6", 
+          purple: "#8B5CF6", 
+          pink: "#EC4899", 
+          orange: "#F97316", 
+          text: "#1E293B", 
+          muted: "#64748B", 
         }
       },
       borderRadius: {

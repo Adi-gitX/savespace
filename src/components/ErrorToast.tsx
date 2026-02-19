@@ -1,8 +1,4 @@
-/**
- * ErrorToast Component
- * 
- * Displays error messages from file system operations.
- */
+
 
 import { X, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';

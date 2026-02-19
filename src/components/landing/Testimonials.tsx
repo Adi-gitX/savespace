@@ -5,7 +5,7 @@ export const Testimonials = () => {
     return (
         <section className="py-24 bg-white relative overflow-hidden">
             <div className="px-4 sm:px-6 lg:px-10">
-                {/* Section label */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -21,9 +21,9 @@ export const Testimonials = () => {
                     </span>
                 </motion.div>
 
-                {/* Two-column: Video Left + Info Right */}
+                {}
                 <div className="flex flex-col lg:flex-row gap-10 max-w-[1400px] mx-auto">
-                    {/* Left: Demo Video */}
+                    {}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -35,7 +35,7 @@ export const Testimonials = () => {
                             className="relative overflow-hidden"
                             style={{ aspectRatio: "16/10", backgroundColor: "#0f172a" }}
                         >
-                            {/* Video */}
+                            {}
                             <video
                                 autoPlay
                                 loop
@@ -49,14 +49,14 @@ export const Testimonials = () => {
                                 />
                             </video>
 
-                            {/* Gradient overlay */}
+                            {}
                             <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-transparent z-10" />
 
                             <div className="absolute top-4 right-4 z-20 bg-black/45 text-white text-[11px] uppercase tracking-[0.08em] px-2.5 py-1 border border-white/25">
                                 Autoplay Preview
                             </div>
 
-                            {/* Bottom label */}
+                            {}
                             <div className="absolute bottom-4 left-4 z-20 text-white">
                                 <p className="text-[14px] font-medium">Watch SaveSpace in Action</p>
                                 <p className="text-[12px] text-white/70">
@@ -66,7 +66,7 @@ export const Testimonials = () => {
                         </div>
                     </motion.div>
 
-                    {/* Right: What You'll Learn */}
+                    {}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -75,7 +75,7 @@ export const Testimonials = () => {
                         className="flex-1 flex flex-col justify-center"
                     >
                         <div className="bg-[#f8fafc] border border-gray-200 p-8 sm:p-10 h-full flex flex-col justify-between">
-                            {/* Title */}
+                            {}
                             <div className="mb-8">
                                 <span className="text-[22px] font-medium tracking-tight text-black flex items-center gap-3">
                                     <BookOpen className="w-6 h-6" />
@@ -83,7 +83,7 @@ export const Testimonials = () => {
                                 </span>
                             </div>
 
-                            {/* Learning points */}
+                            {}
                             <div className="flex-1 mb-8 space-y-4">
                                 {[
                                     {
@@ -110,7 +110,7 @@ export const Testimonials = () => {
                                 ))}
                             </div>
 
-                            {/* Footer */}
+                            {}
                             <div>
                                 <p className="text-[13px] text-gray-500 italic">
                                     "The difference between a good programmer and a great one is understanding what happens beneath the abstractions."

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-/* ───────── Generate Pyramid Block Data ───────── */
+
 const generateBlocks = () => {
     const blocks: { x: number; maxHeight: number; width: number; hue: number; sat: number }[] = [];
     const totalBlocks = 50;
@@ -14,10 +14,10 @@ const generateBlocks = () => {
         const distFromCenter = Math.abs(x + blockWidth / 2 - centerX);
         const normalizedDist = distFromCenter / (totalWidth / 2);
 
-        // Pyramid shape: tallest at center, shortest at edges
+        
         const maxHeight = Math.max(30, 450 * (1 - normalizedDist * normalizedDist) + Math.random() * 40);
 
-        // Cyan-to-blue gradient based on position
+        
         const hue = 190 + normalizedDist * 30;
         const sat = 70 + Math.random() * 20;
 
@@ -35,7 +35,7 @@ export const GradientTransition = () => {
         offset: ["start end", "end start"],
     });
 
-    // Blocks grow from 0 to full height as user scrolls
+    
     const blockScale = useTransform(scrollYProgress, [0, 0.4, 0.6], [0, 0.8, 1]);
     const sectionOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
     const blockOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 0.75]);
@@ -46,7 +46,7 @@ export const GradientTransition = () => {
             className="relative w-full overflow-hidden"
             style={{ height: "700px" }}
         >
-            {/* Base gradient background — white to light blue */}
+            {}
             <motion.div
                 className="absolute inset-0"
                 style={{
@@ -56,7 +56,7 @@ export const GradientTransition = () => {
                 }}
             />
 
-            {/* Pyramid blocks — grow from bottom */}
+            {}
             <div className="absolute inset-0 flex items-end justify-center overflow-hidden">
                 {pyramidBlocks.map((block, i) => (
                     <motion.div
@@ -75,7 +75,7 @@ export const GradientTransition = () => {
                 ))}
             </div>
 
-            {/* Center white glow — pyramid peak highlight */}
+            {}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -84,7 +84,7 @@ export const GradientTransition = () => {
                 }}
             />
 
-            {/* Bottom fade to white */}
+            {}
             <div
                 className="absolute bottom-0 left-0 right-0 pointer-events-none"
                 style={{
@@ -93,7 +93,7 @@ export const GradientTransition = () => {
                 }}
             />
 
-            {/* Bottom section label */}
+            {}
             <div className="absolute bottom-0 left-0 right-0 pb-12 text-center z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

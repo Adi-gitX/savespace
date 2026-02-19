@@ -1,8 +1,4 @@
-/**
- * Header Component
- * 
- * Application header with title and reset button.
- */
+
 
 import { RotateCcw, HardDrive } from 'lucide-react';
 import { Button } from '@/components/ui/button';

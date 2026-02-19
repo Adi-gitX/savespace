@@ -7,7 +7,7 @@ const paperLineWidths = ["42%", "56%", "64%", "72%", "81%", "88%", "67%", "53%"]
 export const FinalCTA = () => {
     return (
         <section className="relative py-24 lg:py-28 bg-[#f8fafc] overflow-hidden">
-            {/* Dot grid pattern */}
+            {}
             <div
                 className="absolute inset-0 opacity-[0.03]"
                 style={{
@@ -17,9 +17,9 @@ export const FinalCTA = () => {
             />
 
             <div className="relative z-10 px-4 sm:px-6 lg:px-10">
-                {/* Two-column layout */}
+                {}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-[1400px] mx-auto items-start">
-                    {/* Left: Heading */}
+                    {}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ export const FinalCTA = () => {
                         </h2>
                     </motion.div>
 
-                    {/* Right: Description + Buttons */}
+                    {}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export const FinalCTA = () => {
                     </motion.div>
                 </div>
 
-                {/* Center: Stacked papers illustration */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -101,7 +101,7 @@ export const FinalCTA = () => {
                     className="flex justify-center mt-20"
                 >
                     <div className="relative">
-                        {/* Stack of papers with gradient tint */}
+                        {}
                         {[...Array(5)].map((_, i) => (
                             <div
                                 key={i}
@@ -127,7 +127,7 @@ export const FinalCTA = () => {
                                 </div>
                             </div>
                         ))}
-                        {/* Gradient overlay */}
+                        {}
                         <div
                             style={{
                                 width: "200px",

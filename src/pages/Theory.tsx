@@ -4,7 +4,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Layers, HardDrive, Cpu, FileDigit, GitBranch, Database } from "lucide-react";
 
-/* ───────── Components ───────── */
+
 
 const SectionLabel = ({ children }: { children: string }) => (
     <span
@@ -50,7 +50,7 @@ const Theory = () => {
 
             <main className="pt-32 pb-20">
 
-                {/* ──────── Hero ──────── */}
+                {}
                 <section className="px-6 md:px-10 mb-20">
                     <div className="max-w-[1400px] mx-auto">
                         <SectionLabel>OPERATING SYSTEMS</SectionLabel>
@@ -64,7 +64,7 @@ const Theory = () => {
                     </div>
                 </section>
 
-                {/* ──────── Concepts Grid ──────── */}
+                {}
                 <section className="px-6 md:px-10 mb-32">
                     <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -112,7 +112,7 @@ const Theory = () => {
                     </div>
                 </section>
 
-                {/* ──────── Deep Dive: Strategies ──────── */}
+                {}
                 <section className="px-6 md:px-10 mb-32">
                     <div className="max-w-[1400px] mx-auto">
                         <div className="mb-12">
@@ -124,7 +124,7 @@ const Theory = () => {
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border-t border-l border-black">
 
-                            {/* Contiguous */}
+                            {}
                             <div className="border-r border-b border-black p-10 hover:bg-gray-50 transition-colors group">
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-3">
                                     <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold">1</span>
@@ -142,7 +142,7 @@ const Theory = () => {
                                 </div>
                             </div>
 
-                            {/* Linked */}
+                            {}
                             <div className="border-r border-b border-black p-10 hover:bg-gray-50 transition-colors group">
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-3">
                                     <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold">2</span>
@@ -162,7 +162,7 @@ const Theory = () => {
                                 </div>
                             </div>
 
-                            {/* Indexed */}
+                            {}
                             <div className="border-r border-b border-black p-10 hover:bg-gray-50 transition-colors group">
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-3">
                                     <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold">3</span>

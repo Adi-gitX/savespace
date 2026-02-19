@@ -22,7 +22,7 @@ import { useFileSystem } from "@/hooks/useFileSystem";
 import { ROOT_INODE_ID } from "@/types/filesystem";
 import { format } from "date-fns";
 
-/* ───────── Components ───────── */
+
 
 const SidebarItem = ({ icon, label, active = false, onClick }: { icon: React.ReactNode, label: string, active?: boolean, onClick?: () => void }) => (
     <div
@@ -59,7 +59,7 @@ const FileItem = ({
             onDoubleClick={onDoubleClick}
             className="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group text-center w-32 relative"
         >
-            {/* Delete Button (Hover) */}
+            {}
             <button
                 onClick={onDelete}
                 className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 hover:bg-red-50 hover:text-red-500 transition-all z-10"
@@ -87,7 +87,7 @@ const FileItem = ({
 };
 
 const FinderInterface = () => {
-    // 1. Hook into File System State
+    
     const {
         state,
         currentDirectory,
@@ -104,11 +104,11 @@ const FinderInterface = () => {
     const [newFolderName, setNewFolderName] = useState("");
     const [showNewFolderInput, setShowNewFolderInput] = useState(false);
 
-    // Navigation History (Simple Stack)
+    
     const [history, setHistory] = useState<number[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
 
-    // Initialize history
+    
     useEffect(() => {
         if (state && history.length === 0) {
             setHistory([ROOT_INODE_ID]);
@@ -161,11 +161,11 @@ const FinderInterface = () => {
         }
     };
 
-    // Quick File Creation for Demo
+    
     const handleCreateDummyFile = () => {
         const name = `File ${Math.floor(Math.random() * 1000)}.txt`;
         try {
-            createFile(name, 4); // 4KB file
+            createFile(name, 4); 
         } catch (e) {
             alert((e as Error).message);
         }
@@ -173,7 +173,7 @@ const FinderInterface = () => {
 
     if (!state || !currentDirectory) return <div className="min-h-screen bg-gray-50 flex items-center justify-center">Loading File System...</div>;
 
-    // Filter entries
+    
     const entries = currentDirectory.entries.map(entry => {
         const inode = state.inodes.get(entry.inodeId);
         return {
@@ -192,20 +192,20 @@ const FinderInterface = () => {
 
             <main className="flex-1 flex items-center justify-center p-6 md:p-10">
 
-                {/* Finder Window */}
+                {}
                 <div className="w-full max-w-6xl h-[80vh] bg-white rounded-xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-500">
 
-                    {/* Window Toolbar */}
+                    {}
                     <div className="h-14 bg-[#f3f4f6] border-b border-gray-200 flex items-center justify-between px-4 window-drag-region">
                         <div className="flex items-center gap-6">
-                            {/* Window Controls */}
+                            {}
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e0443e] hover:brightness-90 cursor-default" />
                                 <div className="w-3 h-3 rounded-full bg-[#febc2e] border-[#d89e24] border hover:brightness-90 cursor-default" />
                                 <div className="w-3 h-3 rounded-full bg-[#28c840] border-[#1aab29] border hover:brightness-90 cursor-default" />
                             </div>
 
-                            {/* Nav Controls */}
+                            {}
                             <div className="flex items-center gap-1 text-gray-500">
                                 <button
                                     onClick={handleBack}
@@ -237,7 +237,7 @@ const FinderInterface = () => {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            {/* Action Buttons */}
+                            {}
                             <div className="flex items-center gap-1">
                                 <button
                                     onClick={() => setShowNewFolderInput(true)}
@@ -255,7 +255,7 @@ const FinderInterface = () => {
                                 </button>
                             </div>
 
-                            {/* View Toggle */}
+                            {}
                             <div className="flex items-center bg-gray-200 rounded-md p-0.5">
                                 <button
                                     onClick={() => setViewMode('grid')}
@@ -271,7 +271,7 @@ const FinderInterface = () => {
                                 </button>
                             </div>
 
-                            {/* Search */}
+                            {}
                             <div className="relative">
                                 <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
                                 <input
@@ -285,10 +285,10 @@ const FinderInterface = () => {
                         </div>
                     </div>
 
-                    {/* Window Body */}
+                    {}
                     <div className="flex-1 flex min-h-0">
 
-                        {/* Sidebar */}
+                        {}
                         <div className="w-48 md:w-56 bg-[#f8f9fa]/80 backdrop-blur-xl border-r border-gray-200 p-3 flex flex-col gap-6 overflow-y-auto hidden sm:flex">
 
                             <div>
@@ -312,10 +312,10 @@ const FinderInterface = () => {
 
                         </div>
 
-                        {/* Main Content */}
+                        {}
                         <div className="flex-1 bg-white overflow-y-auto p-4 content-start" onClick={() => setShowNewFolderInput(false)}>
 
-                            {/* New Folder Input Overlay */}
+                            {}
                             {showNewFolderInput && (
                                 <div className="mb-4 p-4 bg-gray-50 border border-gray-100 rounded-lg flex items-center gap-2 animate-in slide-in-from-top-2" onClick={e => e.stopPropagation()}>
                                     <Folder className="w-5 h-5 text-blue-400" />
@@ -347,7 +347,7 @@ const FinderInterface = () => {
                                                 type={entry.inode?.type === 'directory' ? 'directory' : 'file'}
                                                 size={entry.inode?.size ? (entry.inode.size < 1024 ? `${entry.inode.size} B` : `${Math.round(entry.inode.size / 1024)} KB`) : "--"}
                                                 date={entry.inode?.createdAt ? format(new Date(entry.inode.createdAt), 'MMM d, HH:mm') : ''}
-                                                onClick={() => {/* Select */ }}
+                                                onClick={() => { }}
                                                 onDoubleClick={() => {
                                                     if (entry.inode?.type === 'directory') {
                                                         handleNavigate(entry.inodeId);
@@ -414,7 +414,7 @@ const FinderInterface = () => {
 
                     </div>
 
-                    {/* Bottom Status Bar */}
+                    {}
                     <div className="h-8 bg-[#f3f4f6] border-t border-gray-200 flex items-center justify-center text-[11px] text-gray-500 cursor-default select-none">
                         {entries.length} items, {state.disk.totalBlocks - state.disk.blocks.filter(b => b.used).length} blocks available
                     </div>

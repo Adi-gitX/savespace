@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 export const UnlockSection = () => {
     return (
         <section className="relative py-32 bg-gradient-to-b from-white via-slate-50/50 to-white overflow-hidden">
-            {/* Decorative dots */}
+            {}
             <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
-                {/* Header */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export const UnlockSection = () => {
                     </div>
                 </motion.div>
 
-                {/* Main Visual — imgi_28 */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 40, scale: 0.97 }}
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -54,7 +54,7 @@ export const UnlockSection = () => {
                     transition={{ duration: 0.8, delay: 0.15 }}
                     className="relative max-w-5xl mx-auto"
                 >
-                    {/* Glow */}
+                    {}
                     <div className="absolute -inset-8 bg-gradient-to-r from-violet-100 via-purple-100 to-pink-100 rounded-[40px] blur-3xl opacity-40" />
 
                     <div className="relative bg-white/60 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 overflow-hidden p-3">

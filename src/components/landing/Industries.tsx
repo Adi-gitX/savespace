@@ -56,7 +56,7 @@ export const Industries = () => {
                             className="bg-white flex flex-col justify-between relative overflow-hidden group cursor-pointer border border-gray-200"
                             style={{ minHeight: "320px" }}
                         >
-                            {/* Top gradient accent line */}
+                            {}
                             <div
                                 className="absolute top-0 left-0 right-0 h-[2px]"
                                 style={{ background: feature.bgGradient }}
@@ -74,12 +74,12 @@ export const Industries = () => {
                                     </h3>
                                 </div>
 
-                                {/* Description */}
+                                {}
                                 <p className="text-[15px] text-gray-700 leading-[1.65] max-w-[360px] mb-6">
                                     {feature.desc}
                                 </p>
 
-                                {/* CTA Button */}
+                                {}
                                 <Link to={feature.link}>
                                     <button
                                         className="text-[12px] font-medium text-black uppercase bg-white hover:bg-gray-50 transition-all"
@@ -94,7 +94,7 @@ export const Industries = () => {
                                 </Link>
                             </div>
 
-                            {/* Right: Colored abstract image */}
+                            {}
                             <div
                                 className="hidden xl:block absolute top-4 right-4 bottom-4"
                                 style={{
@@ -103,7 +103,7 @@ export const Industries = () => {
                                     opacity: 0.9,
                                 }}
                             >
-                                {/* Nested squares pattern */}
+                                {}
                                 <div className="absolute inset-4 flex items-center justify-center">
                                     <div
                                         className="w-full h-full"

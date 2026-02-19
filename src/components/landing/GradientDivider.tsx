@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
 
-/**
- * A row of small colored squares that form a gradient mosaic divider.
- * Matches the SaveSpace box-style section divider pattern.
- */
+
 export const GradientDivider = ({
     colors = ["#3b82f6", "#6366f1", "#8b5cf6", "#a855f7", "#d946ef", "#ec4899", "#f43f5e", "#f97316", "#eab308"],
     height = 3,
@@ -13,7 +10,7 @@ export const GradientDivider = ({
     height?: number;
     className?: string;
 }) => {
-    // Generate many small blocks across full width
+    
     const blockCount = 80;
     const blocks = Array.from({ length: blockCount }, (_, i) => {
         const progress = i / (blockCount - 1);
@@ -21,9 +18,9 @@ export const GradientDivider = ({
         const nextIndex = Math.min(colorIndex + 1, colors.length - 1);
         const localProgress = (progress * (colors.length - 1)) - colorIndex;
 
-        // Simple color interpolation by picking from the array
+        
         const color = localProgress < 0.5 ? colors[colorIndex] : colors[nextIndex];
-        // Slight opacity variation for mosaic feel
+        
         const opacity = 0.7 + Math.random() * 0.3;
 
         return { color, opacity };
@@ -53,9 +50,7 @@ export const GradientDivider = ({
     );
 };
 
-/**
- * Section header with square bullet — consistent SaveSpace style.
- */
+
 export const SectionHeader = ({
     label,
     title,

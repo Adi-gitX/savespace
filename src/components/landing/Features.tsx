@@ -5,7 +5,7 @@ export const Features = () => {
     return (
         <section className="relative w-full py-32 bg-white overflow-hidden">
             <div style={{ margin: "0 40px" }}>
-                {/* Section Header */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ export const Features = () => {
                     </p>
                 </motion.div>
 
-                {/* Feature Cards — sharp, with top border line */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +74,7 @@ export const Features = () => {
                                 borderRight: i < 2 ? "1px solid rgba(0,0,0,0.06)" : "none",
                             }}
                         >
-                            {/* Number indicator */}
+                            {}
                             <span
                                 className="text-[12px] font-bold uppercase mb-4 block"
                                 style={{ letterSpacing: "1.5px", color: card.topColor }}
@@ -98,7 +98,7 @@ export const Features = () => {
                     ))}
                 </motion.div>
 
-                {/* Main Visual */}
+                {}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}

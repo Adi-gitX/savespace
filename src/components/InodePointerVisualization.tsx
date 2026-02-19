@@ -9,16 +9,16 @@ interface InodePointerVisualizationProps {
 
 export function InodePointerVisualization({ inode }: InodePointerVisualizationProps) {
   if (!inode) return null;
-  // only show for unix strategy or if fields are present
+  
   if (inode.allocationStrategy !== 'unix' && !inode.directPointers) return null;
 
   const directCount = inode.directPointers?.length || 0;
   const hasSingle = inode.singleIndirectPointer !== null && inode.singleIndirectPointer !== undefined;
   const hasDouble = inode.doubleIndirectPointer !== null && inode.doubleIndirectPointer !== undefined;
   
-  // Estimate usage
-  // In a real reader we would read the index block to know how many are used.
-  // Here we can infer from total size or just show structure availability.
+  
+  
+  
   
   return (
     <Card className="mt-4 border-dashed">
@@ -31,7 +31,7 @@ export function InodePointerVisualization({ inode }: InodePointerVisualizationPr
       <CardContent className="p-3 text-xs">
         <ScrollArea className="h-[200px] pr-2">
             
-            {/* Direct Pointers */}
+            {}
             <div className="mb-4">
                 <div className="font-semibold mb-1 flex items-center">
                     <Box className="w-3 h-3 mr-1 text-blue-500" />
@@ -53,7 +53,7 @@ export function InodePointerVisualization({ inode }: InodePointerVisualizationPr
                 </div>
             </div>
 
-            {/* Single Indirect */}
+            {}
             <div className="mb-4">
                  <div className="font-semibold mb-1 flex items-center">
                     <CornerDownRight className="w-3 h-3 mr-1 text-amber-500" />
@@ -79,7 +79,7 @@ export function InodePointerVisualization({ inode }: InodePointerVisualizationPr
                     {hasSingle && (
                         <div className="bg-amber-50/50 p-1 rounded border border-amber-100/50">
                              <div className="grid grid-cols-8 gap-0.5">
-                                 {/* Visual representation of data blocks pointed to */}
+                                 {}
                                  {Array.from({ length: 16 }).map((_, i) => (
                                       <div key={i} className="w-1.5 h-1.5 bg-amber-200 rounded-full" />
                                  ))}
@@ -89,7 +89,7 @@ export function InodePointerVisualization({ inode }: InodePointerVisualizationPr
                 </div>
             </div>
 
-            {/* Double Indirect */}
+            {}
             <div>
                  <div className="font-semibold mb-1 flex items-center">
                     <CornerDownRight className="w-3 h-3 mr-1 text-purple-500" />

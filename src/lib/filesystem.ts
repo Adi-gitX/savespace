@@ -1,11 +1,5 @@
 
-/**
- * Visual File System Simulator - Core Logic
- * 
- * This module implements the core file system operations.
- * Each function is designed to mimic how real operating systems
- * manage files at the kernel level.
- */
+
 
 import {
   AllocationStrategy,
@@ -25,16 +19,9 @@ import {
 
 const STORAGE_KEY = 'visual-fs-state';
 
-/**
- * Initialize a fresh file system
- * 
- * This is like formatting a new disk. We:
- * 1. Create all disk blocks (initially free)
- * 2. Set up the free block bitmap
- * 3. Create the root directory with inode 0
- */
+
 export function initializeFileSystem(): FileSystemState {
-  // Create disk blocks
+  
   const blocks: DiskBlock[] = [];
   const freeBlockBitmap: boolean[] = [];
 
@@ -44,7 +31,7 @@ export function initializeFileSystem(): FileSystemState {
       used: false,
       inodeId: null,
     });
-    freeBlockBitmap.push(false); // false = free
+    freeBlockBitmap.push(false); 
   }
 
   const disk: Disk = {
@@ -54,7 +41,7 @@ export function initializeFileSystem(): FileSystemState {
     freeBlockBitmap,
   };
 
-  // Create root directory inode
+  
   const rootInode: Inode = {
     id: ROOT_INODE_ID,
     type: 'directory',
@@ -64,10 +51,10 @@ export function initializeFileSystem(): FileSystemState {
     blockPointers: [],
   };
 
-  // Create root directory
+  
   const rootDir: Directory = {
     inodeId: ROOT_INODE_ID,
-    parentInodeId: null, // Root has no parent
+    parentInodeId: null, 
     entries: [],
   };
 
@@ -81,22 +68,22 @@ export function initializeFileSystem(): FileSystemState {
     inodes,
     directories,
     disk,
-    nextInodeId: 1, // 0 is taken by root
+    nextInodeId: 1, 
     rootInodeId: ROOT_INODE_ID,
     currentAllocationStrategy: 'contiguous' as AllocationStrategy,
   };
 
-  // --- Initial Clean State ---
-  // Create "Documents" folder
-  // createDirectory(state, ROOT_INODE_ID, "Documents"); // Not calling direct function to avoid complexity here, keep it empty for "No Mock Data" request or just one welcome file.
+  
+  
+  
 
-  // Actually, user said "no mock data". So a pure clean slate is best.
-  // But let's add just one "Welcome" file to prove it works.
+  
+  
   try {
-    // Manually add a file
+    
     const welcomeInodeId = state.nextInodeId++;
-    const welcomeSize = 256; // bytes
-    // Allocate 1 block
+    const welcomeSize = 256; 
+    
     state.disk.freeBlockBitmap[0] = true;
     state.disk.blocks[0].used = true;
     state.disk.blocks[0].inodeId = welcomeInodeId;
@@ -121,9 +108,7 @@ export function initializeFileSystem(): FileSystemState {
   return state;
 }
 
-/**
- * Find contiguous free blocks
- */
+
 function findContiguousBlocks(disk: Disk, blocksNeeded: number): number[] {
   let currentRun: number[] = [];
 
@@ -141,9 +126,7 @@ function findContiguousBlocks(disk: Disk, blocksNeeded: number): number[] {
   return [];
 }
 
-/**
- * Find any free blocks (for linked/indexed)
- */
+
 function findAnyFreeBlocks(disk: Disk, blocksNeeded: number): number[] {
   const blocks: number[] = [];
 
@@ -156,9 +139,7 @@ function findAnyFreeBlocks(disk: Disk, blocksNeeded: number): number[] {
   return blocks;
 }
 
-/**
- * Allocate disk blocks based on the current strategy
- */
+
 export function allocateBlocks(
   state: FileSystemState,
   sizeInBytes: number,
@@ -182,7 +163,7 @@ export function allocateBlocks(
       throw new Error(`Not enough contiguous space. Need ${blocksNeeded} blocks. Try defragmenting or switching to Linked allocation.`);
     }
 
-    // Allocate the blocks
+    
     for (const blockId of blocks) {
       state.disk.freeBlockBitmap[blockId] = true;
       state.disk.blocks[blockId].used = true;
@@ -199,7 +180,7 @@ export function allocateBlocks(
       throw new Error(`Not enough disk space. Need ${blocksNeeded} blocks.`);
     }
 
-    // Allocate and link blocks
+    
     for (let i = 0; i < blocks.length; i++) {
       const blockId = blocks[i];
       const nextBlockId = i < blocks.length - 1 ? blocks[i + 1] : null;
@@ -214,7 +195,7 @@ export function allocateBlocks(
     return { blocks };
   }
   else if (strategy === 'indexed') {
-    // Need 1 extra block for the index
+    
     const totalNeeded = blocksNeeded + 1;
     const blocks = findAnyFreeBlocks(state.disk, totalNeeded);
 
@@ -222,16 +203,16 @@ export function allocateBlocks(
       throw new Error(`Not enough disk space. Need ${totalNeeded} blocks (including 1 index block).`);
     }
 
-    const indexBlockId = blocks[0]; // First block is index block
+    const indexBlockId = blocks[0]; 
     const dataBlocks = blocks.slice(1);
 
-    // Setup Index Block
+    
     state.disk.freeBlockBitmap[indexBlockId] = true;
     state.disk.blocks[indexBlockId].used = true;
     state.disk.blocks[indexBlockId].inodeId = inodeId;
     state.disk.blocks[indexBlockId].blockType = 'index';
 
-    // Setup Data Blocks
+    
     for (const blockId of dataBlocks) {
       state.disk.freeBlockBitmap[blockId] = true;
       state.disk.blocks[blockId].used = true;
@@ -242,21 +223,21 @@ export function allocateBlocks(
     return { blocks: dataBlocks, indexBlockId };
   }
   else if (strategy === 'unix') {
-    // Unix FFS Style Allocation
+    
     let metaBlocksNeeded = 0;
     const directCount = Math.min(blocksNeeded, MAX_DIRECT_POINTERS);
     let remData = blocksNeeded - directCount;
 
-    // Single Indirect
+    
     const singleDataCount = Math.min(remData, POINTERS_PER_BLOCK);
-    if (remData > 0) metaBlocksNeeded++; // Single indirect block
+    if (remData > 0) metaBlocksNeeded++; 
     remData -= singleDataCount;
 
-    // Double Indirect
-    const doubleDataCount = remData; // Assuming we don't exceed max file size for now (12 + 16 + 256 blocks)
+    
+    const doubleDataCount = remData; 
     let doubleIndexBlocks = 0;
     if (remData > 0) {
-      metaBlocksNeeded++; // Double indirect block
+      metaBlocksNeeded++; 
       doubleIndexBlocks = Math.ceil(remData / POINTERS_PER_BLOCK);
       metaBlocksNeeded += doubleIndexBlocks;
     }
@@ -268,43 +249,43 @@ export function allocateBlocks(
       throw new Error(`Not enough disk space. Need ${totalNeeded} blocks.`);
     }
 
-    // Distribute blocks
+    
     let cursor = 0;
 
-    // 1. Direct Blocks
+    
     const direct: number[] = [];
     for (let i = 0; i < directCount; i++) {
       direct.push(allBlocks[cursor++]);
     }
 
-    // 2. Single Indirect
+    
     let singleIndirect: number | null = null;
     if (singleDataCount > 0) {
       singleIndirect = allBlocks[cursor++];
       state.disk.blocks[singleIndirect].blockType = 'index';
-      // The data blocks it points to
+      
       for (let i = 0; i < singleDataCount; i++) {
-        cursor++; // Consume data block
+        cursor++; 
       }
     }
 
-    // 3. Double Indirect
+    
     let doubleIndirect: number | null = null;
     if (doubleDataCount > 0) {
       doubleIndirect = allBlocks[cursor++];
       state.disk.blocks[doubleIndirect].blockType = 'index';
 
-      // Consume intermediate index blocks
+      
       for (let i = 0; i < doubleIndexBlocks; i++) {
         const midIndex = allBlocks[cursor++];
         state.disk.blocks[midIndex].blockType = 'index';
-        // Consume data blocks for this segment
-        // (Simulated consumption as we just return list of all blocks used for now)
+        
+        
       }
-      cursor += doubleDataCount; // Skip data blocks
+      cursor += doubleDataCount; 
     }
 
-    // Mark all as used
+    
     for (const blockId of allBlocks) {
       state.disk.freeBlockBitmap[blockId] = true;
       state.disk.blocks[blockId].used = true;
@@ -327,12 +308,7 @@ export function allocateBlocks(
   throw new Error(`Unknown allocation strategy: ${strategy}`);
 }
 
-/**
- * Free disk blocks
- * 
- * When a file is deleted, we must return its blocks to the free pool.
- * This is done by updating the bitmap and block metadata.
- */
+
 export function freeBlocks(state: FileSystemState, blockIds: number[]): void {
   for (const blockId of blockIds) {
     state.disk.freeBlockBitmap[blockId] = false;
@@ -341,16 +317,7 @@ export function freeBlocks(state: FileSystemState, blockIds: number[]): void {
   }
 }
 
-/**
- * Create a new file
- * 
- * Steps:
- * 1. Allocate a new inode
- * 2. Allocate disk blocks based on file size
- * 3. Add entry to parent directory
- * 
- * Note: The filename is stored in the directory entry, NOT in the inode.
- */
+
 export function createFile(
   state: FileSystemState,
   parentDirInodeId: number,
@@ -362,7 +329,7 @@ export function createFile(
     throw new Error('Parent directory not found');
   }
 
-  // Check for duplicate name
+  
   if (parentDir.entries.some(e => e.name === name)) {
     throw new Error(`A file or folder named "${name}" already exists`);
   }
@@ -370,10 +337,10 @@ export function createFile(
   const sizeInBytes = sizeInKB * 1024;
   const inodeId = state.nextInodeId++;
 
-  // Allocate blocks first (may throw if not enough space)
+  
   const { blocks: blockPointers, indexBlockId, unixStructure } = allocateBlocks(state, sizeInBytes, inodeId);
 
-  // Create the inode
+  
   const inode: Inode = {
     id: inodeId,
     type: 'file',
@@ -390,20 +357,13 @@ export function createFile(
 
   state.inodes.set(inodeId, inode);
 
-  // Add to parent directory
+  
   parentDir.entries.push({ name, inodeId });
 
   return inode;
 }
 
-/**
- * Create a new directory
- * 
- * Similar to createFile, but:
- * - Type is 'directory'
- * - Size is 0 (or number of entries)
- * - No disk blocks needed (in our simplified model)
- */
+
 export function createDirectory(
   state: FileSystemState,
   parentDirInodeId: number,
@@ -414,24 +374,24 @@ export function createDirectory(
     throw new Error('Parent directory not found');
   }
 
-  // Check for duplicate name
+  
   if (parentDir.entries.some(e => e.name === name)) {
     throw new Error(`A file or folder named "${name}" already exists`);
   }
 
   const inodeId = state.nextInodeId++;
 
-  // Create the inode
+  
   const inode: Inode = {
     id: inodeId,
     type: 'directory',
     size: 0,
     createdAt: new Date().toISOString(),
     permissions: { read: true, write: true, execute: true },
-    blockPointers: [], // Directories don't use blocks in our model
+    blockPointers: [], 
   };
 
-  // Create the directory structure
+  
   const directory: Directory = {
     inodeId,
     parentInodeId: parentDirInodeId,
@@ -441,20 +401,13 @@ export function createDirectory(
   state.inodes.set(inodeId, inode);
   state.directories.set(inodeId, directory);
 
-  // Add to parent directory
+  
   parentDir.entries.push({ name, inodeId });
 
   return { inode, directory };
 }
 
-/**
- * Rename a file or directory
- * 
- * Key insight: Renaming is FAST because we only update the directory entry.
- * The inode and disk blocks remain unchanged. This is why:
- * - Moving a file within the same filesystem is instant (just update entry)
- * - Copying is slow (need to copy all blocks)
- */
+
 export function renameEntry(
   state: FileSystemState,
   parentDirInodeId: number,
@@ -471,12 +424,12 @@ export function renameEntry(
     throw new Error('Parent directory not found');
   }
 
-  // Check new name doesn't exist
+  
   if (parentDir.entries.some(e => e.name === newName)) {
     throw new Error(`A file or folder named "${newName}" already exists`);
   }
 
-  // Find and update the entry
+  
   const entry = parentDir.entries.find(e => e.name === oldName);
   if (!entry) {
     throw new Error(`"${oldName}" not found`);
@@ -485,17 +438,7 @@ export function renameEntry(
   entry.name = newName;
 }
 
-/**
- * Delete a file
- * 
- * This is a multi-step process:
- * 1. Remove directory entry (unlink the name)
- * 2. Free disk blocks (return storage)
- * 3. Delete inode (remove metadata)
- * 
- * In real systems with hard links, we'd decrement a link count
- * and only delete when it reaches 0.
- */
+
 export function deleteFile(
   state: FileSystemState,
   parentDirInodeId: number,
@@ -529,21 +472,19 @@ export function deleteFile(
     state.directories.delete(entry.inodeId);
   }
 
-  // Free disk blocks
+  
   freeBlocks(state, inode.blockPointers);
 
-  // Remove inode
+  
   state.inodes.delete(entry.inodeId);
 
-  // Remove directory entry
+  
   parentDir.entries.splice(entryIndex, 1);
 }
 
 
 
-/**
- * Get the full path to an inode
- */
+
 export function getPath(state: FileSystemState, inodeId: number): string {
   if (inodeId === ROOT_INODE_ID) {
     return '/';
@@ -556,7 +497,7 @@ export function getPath(state: FileSystemState, inodeId: number): string {
     const dir = state.directories.get(currentId);
     if (!dir) break;
 
-    // Find this directory's name in its parent
+    
     const parentDir = state.directories.get(dir.parentInodeId!);
     if (parentDir) {
       const entry = parentDir.entries.find(e => e.inodeId === currentId);
@@ -570,9 +511,7 @@ export function getPath(state: FileSystemState, inodeId: number): string {
   return '/' + parts.join('/');
 }
 
-/**
- * Get disk usage statistics
- */
+
 export function getDiskStats(state: FileSystemState): {
   totalBlocks: number;
   usedBlocks: number;
@@ -594,13 +533,9 @@ export function getDiskStats(state: FileSystemState): {
   };
 }
 
-// ============ Persistence ============
 
-/**
- * Save state to localStorage
- * 
- * Maps cannot be directly serialized, so we convert to arrays
- */
+
+
 export function saveToStorage(state: FileSystemState): void {
   const serializable: SerializableFileSystemState = {
     inodes: Array.from(state.inodes.entries()),
@@ -614,9 +549,7 @@ export function saveToStorage(state: FileSystemState): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable));
 }
 
-/**
- * Load state from localStorage
- */
+
 export function loadFromStorage(): FileSystemState | null {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) {
@@ -626,7 +559,7 @@ export function loadFromStorage(): FileSystemState | null {
   try {
     const serializable: SerializableFileSystemState = JSON.parse(data);
 
-    // Migration: Convert string permissions to PermissionSet
+    
     const inodes = new Map(serializable.inodes);
     for (const inode of inodes.values()) {
       if (typeof inode.permissions === 'string') {
@@ -645,7 +578,7 @@ export function loadFromStorage(): FileSystemState | null {
       disk: serializable.disk,
       nextInodeId: serializable.nextInodeId,
       rootInodeId: serializable.rootInodeId,
-      currentAllocationStrategy: serializable.currentAllocationStrategy || 'contiguous', // Backward compatibility
+      currentAllocationStrategy: serializable.currentAllocationStrategy || 'contiguous', 
     };
   } catch {
     console.error('Failed to parse file system state');
@@ -653,17 +586,13 @@ export function loadFromStorage(): FileSystemState | null {
   }
 }
 
-/**
- * Clear storage and reinitialize
- */
+
 export function resetFileSystem(): FileSystemState {
   localStorage.removeItem(STORAGE_KEY);
   return initializeFileSystem();
 }
 
-/**
- * Switch the allocation strategy
- */
+
 export function switchAllocationStrategy(
   state: FileSystemState,
   newStrategy: AllocationStrategy
@@ -671,12 +600,10 @@ export function switchAllocationStrategy(
   state.currentAllocationStrategy = newStrategy;
 }
 
-/**
- * Calculate fragmentation percentage (for contiguous allocation)
- */
+
 export function calculateFragmentation(disk: Disk): number {
-  // Simple external fragmentation metric:
-  // 1 - (Largest Contiguous Block / Total Free Blocks)
+  
+  
 
   let maxContiguous = 0;
   let currentContiguous = 0;
@@ -684,11 +611,11 @@ export function calculateFragmentation(disk: Disk): number {
 
   for (let i = 0; i < disk.totalBlocks; i++) {
     if (!disk.freeBlockBitmap[i]) {
-      // Block is free
+      
       totalFree++;
       currentContiguous++;
     } else {
-      // Block is used
+      
       maxContiguous = Math.max(maxContiguous, currentContiguous);
       currentContiguous = 0;
     }
@@ -701,7 +628,7 @@ export function calculateFragmentation(disk: Disk): number {
 }
 
 export function checkPermission(inode: Inode, operation: 'read' | 'write' | 'execute'): boolean {
-  if (!inode.permissions) return true; // Safety
+  if (!inode.permissions) return true; 
   return inode.permissions[operation];
 }
 
