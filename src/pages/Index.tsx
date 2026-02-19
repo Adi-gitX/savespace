@@ -1,17 +1,3 @@
-/**
- * Visual File System Simulator - Main Page
- * 
- * Layout:
- * ┌─────────────────────────────────────────────────────┐
- * │                     Header                          │
- * ├──────────┬────────────────────────┬─────────────────┤
- * │          │                        │                 │
- * │   Tree   │      File List         │   Inspector     │
- * │          │                        │                 │
- * ├──────────┴────────────────────────┴─────────────────┤
- * │              Disk Block Visualization               │
- * └─────────────────────────────────────────────────────┘
- */
 
 import { AllocationStrategySelector } from '@/components/AllocationStrategySelector';
 import { DirectoryTree } from '@/components/DirectoryTree';
@@ -20,12 +6,23 @@ import { ErrorToast } from '@/components/ErrorToast';
 import { FileGrid } from '@/components/FileGrid';
 import { FileInspector } from '@/components/FileInspector';
 import { FileList } from '@/components/FileList';
-import { Header } from '@/components/Header';
+import { Navbar } from '@/components/landing/Navbar';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useFileSystem } from '@/hooks/useFileSystem';
-import { LayoutGrid, List, Settings2 } from 'lucide-react';
+import { LayoutGrid, List, Settings2, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const Index = () => {
   const {
@@ -54,65 +51,97 @@ const Index = () => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      {/* Header */}
-      <Header onReset={reset} />
+    <div className="h-screen flex flex-col bg-white text-black font-sans">
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Control Toolbar */}
-      <div className="border-b bg-muted/20 px-4 py-1.5 flex items-center gap-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="h-8 gap-2 bg-background">
-              <Settings2 className="w-3.5 h-3.5" />
-              <span className="text-xs">Strategy: <span className="font-medium capitalize">{state?.currentAllocationStrategy || 'Contiguous'}</span></span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-0" align="start">
-            <AllocationStrategySelector 
-              currentStrategy={state?.currentAllocationStrategy || 'contiguous'}
-              onStrategyChange={setAllocationStrategy}
-              fragmentation={fragmentation}
-            />
-          </PopoverContent>
-        </Popover>
-        <div className="flex items-center gap-2">
-            <div className="flex items-center border rounded-md">
+      {/* Toolbar */}
+      <div className="border-b border-black flex items-center justify-between px-6 py-3 bg-white z-10">
+        <div className="flex items-center gap-4">
+          <Popover>
+            <PopoverTrigger asChild>
               <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                variant="outline"
                 size="sm"
-                onClick={() => setViewMode('list')}
-                className="rounded-r-none"
+                className="h-9 gap-2 bg-white text-black border-black hover:bg-gray-50 uppercase text-[11px] font-bold tracking-widest rounded-none"
               >
-                <List className="w-4 h-4" />
+                <Settings2 className="w-3.5 h-3.5" />
+                <span className="truncate">
+                  Strategy: {state?.currentAllocationStrategy || 'Contiguous'}
+                </span>
               </Button>
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-                className="rounded-l-none"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </Button>
-            </div>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 p-0 border-black rounded-none" align="start">
+              <AllocationStrategySelector
+                currentStrategy={state?.currentAllocationStrategy || 'contiguous'}
+                onStrategyChange={setAllocationStrategy}
+                fragmentation={fragmentation}
+              />
+            </PopoverContent>
+          </Popover>
+
+          <div className="flex items-center border border-black rounded-none">
+            <button
+              onClick={() => setViewMode('list')}
+              className={`h-9 px-3 flex items-center justify-center transition-colors ${viewMode === 'list' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-50'}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
+            <div className="w-[1px] h-9 bg-black" />
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`h-9 px-3 flex items-center justify-center transition-colors ${viewMode === 'grid' ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-50'}`}
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </button>
           </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline" size="sm" className="h-9 border-black rounded-none uppercase text-[11px] font-bold tracking-widest hover:bg-red-50 hover:text-red-600 hover:border-red-600 transition-colors">
+                <RotateCcw className="w-3.5 h-3.5 mr-2" />
+                Reset System
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="rounded-none border-black">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="font-bold">Reset File System?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will delete all files and directories, reinitialize the disk,
+                  and clear all data. This cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="rounded-none border-black uppercase text-xs font-bold tracking-wider">Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={reset} className="rounded-none bg-red-600 hover:bg-red-700 uppercase text-xs font-bold tracking-wider">Reset</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Workspace */}
       <div className="flex-1 flex flex-col min-h-0">
-        {/* Top Panels: Tree | Files | Inspector */}
-        <div className="flex-1 flex min-h-0 border-b">
-          {/* Directory Tree Panel */}
-          <div className="w-56 border-r bg-panel flex-shrink-0">
-            <DirectoryTree
-              state={state}
-              selectedDirId={selectedDirId}
-              onSelectDirectory={selectDirectory}
-              onCreateDirectory={createDirectory}
-            />
+
+
+        <div className="flex-1 flex min-h-0 border-b border-black">
+
+
+          <div className="w-64 border-r border-black flex-shrink-0 bg-gray-50/50">
+            <div className="h-full overflow-auto p-2">
+              <DirectoryTree
+                state={state}
+                selectedDirId={selectedDirId}
+                onSelectDirectory={selectDirectory}
+                onCreateDirectory={createDirectory}
+              />
+            </div>
           </div>
 
-          {/* File List Panel */}
-          <div className="flex-1 overflow-auto border rounded-lg bg-card">
+
+          <div className="flex-1 overflow-auto bg-white">
             {viewMode === 'list' ? (
               <FileList
                 state={state}
@@ -139,8 +168,8 @@ const Index = () => {
             )}
           </div>
 
-          {/* File Inspector Panel */}
-          <div className="w-72 border-l bg-panel flex-shrink-0">
+
+          <div className="w-80 border-l border-black flex-shrink-0 bg-gray-50/50">
             <FileInspector
               selectedFile={selectedFile}
               selectedFileName={selectedFileName}
@@ -151,8 +180,8 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Disk Block Visualization Panel */}
-        <div className="h-64 bg-panel flex-shrink-0">
+        {/* Bottom Section */}
+        <div className="h-72 flex-shrink-0 bg-white p-0">
           <DiskBlockVisual
             disk={state?.disk ?? null}
             selectedFile={selectedFile}
@@ -161,7 +190,6 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Error Toast */}
       <ErrorToast message={error} onDismiss={clearError} />
     </div>
   );
