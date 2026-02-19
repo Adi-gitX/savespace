@@ -28,7 +28,7 @@ export function PathVisualizer({ state, path }: PathVisualizerProps) {
     const parts = path.split('/').filter(p => p.length > 0);
     const newSteps: Step[] = [];
     
-    
+    // Start at Root
     let currentInodeId = ROOT_INODE_ID;
     const rootInode = state.inodes.get(ROOT_INODE_ID);
     
@@ -41,7 +41,7 @@ export function PathVisualizer({ state, path }: PathVisualizerProps) {
         });
     }
 
-    
+    // Traverse
     let success = true;
     for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
