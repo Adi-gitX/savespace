@@ -76,21 +76,21 @@ export const Features = () => {
                         >
                             {/* Number indicator */}
                             <span
-                                className="text-[11px] font-bold uppercase mb-4 block"
+                                className="text-[12px] font-bold uppercase mb-4 block"
                                 style={{ letterSpacing: "1.5px", color: card.topColor }}
                             >
                                 0{i + 1}
                             </span>
                             <h3
-                                className="text-[20px] font-medium text-black mb-3"
+                                className="text-[26px] font-medium text-black mb-3"
                                 style={{ letterSpacing: "-0.4px" }}
                             >
                                 {card.title}
                             </h3>
-                            <p className="text-[13px] text-gray-500 leading-[1.7] mb-6">
+                            <p className="text-[16px] text-gray-600 leading-[1.65] mb-6">
                                 {card.desc}
                             </p>
-                            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-black uppercase group-hover:gap-3 transition-all" style={{ letterSpacing: "1px" }}>
+                            <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-black uppercase group-hover:gap-3 transition-all" style={{ letterSpacing: "1px" }}>
                                 Learn more
                                 <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                             </span>
