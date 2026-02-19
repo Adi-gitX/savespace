@@ -1,158 +1,140 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 
-/* ───────── Product Data ───────── */
-interface ProductData {
+
+interface FeatureData {
     number: string;
     title: string;
     description: string;
     image: string;
     buttonLabel: string;
+    buttonLink: string;
     bullets: { title: string; desc: string }[];
 }
 
-const products: ProductData[] = [
+const features: FeatureData[] = [
     {
         number: "01",
-        title: "SaveCloud",
+        title: "Smart File Organizer",
         description:
-            "SaveCloud powers enterprise-grade document automation with industry-best parsing, extraction, indexing, and retrieval — optimized for accuracy, configurability, and scalability.",
+            "A macOS Finder-inspired interface where you upload any folder and click 'Organize' — files are automatically sorted by extension into clean categories like Images, Videos, Documents, Music, and more.",
         image: "/assets/imgi_24_07766393ac8f2f199ac50a29f15d97082b17272d-1616x1360.png",
-        buttonLabel: "START BUILDING",
+        buttonLabel: "TRY ORGANIZER",
+        buttonLink: "/finder",
         bullets: [
             {
-                title: "SaveParse",
-                desc: "Industry-leading document parsing for 90+ unstructured file types — including support for embedded images, complex layouts, multi-page tables, and even handwritten notes.",
+                title: "Upload & Drop",
+                desc: "Drag any folder into the interface or use the upload button to load your files instantly.",
             },
             {
-                title: "SaveExtract",
-                desc: "Define custom schemas and extract structured data from any document with high accuracy and consistency.",
+                title: "Auto-Categorize",
+                desc: "Files are automatically sorted by extension — mp3, mp4, png, pdf, docx, and more — into clean, organized folders.",
             },
             {
-                title: "Index",
-                desc: "Automatically chunk, embed, and index your parsed documents for fast, accurate retrieval.",
+                title: "Finder-Style UI",
+                desc: "A sleek macOS-inspired interface with list and grid views, file inspection, and path navigation.",
             },
         ],
     },
     {
         number: "02",
-        title: "Workflows",
+        title: "File System Simulator",
         description:
-            "Workflows is an event-driven, async-first workflow engine that orchestrates multi-step AI processes, agents, and document pipelines with precision and control.",
+            "An interactive educational tool for understanding OS file system concepts. Visualize how allocation strategies work with animated disk blocks, and explore fragmentation in real time.",
         image: "/assets/imgi_27_0586db759cc7b58bf1dc1634803ead8675ec6ed9-1616x1616.png",
-        buttonLabel: "START BUILDING",
+        buttonLabel: "EXPLORE SIMULATOR",
+        buttonLink: "/visualization",
         bullets: [
             {
-                title: "Orchestrate AI Workflows",
-                desc: "Easily chain together multiple steps, loop, and parallel paths.",
+                title: "Allocation Strategies",
+                desc: "Switch between Contiguous, Linked, Indexed, and Unix Inode multi-level strategies and see how each allocates disk blocks.",
             },
             {
-                title: "Built for Speed",
-                desc: "Async-first workflows that seamlessly integrate with modern Python apps, like FastAPI.",
+                title: "Disk Block Visualization",
+                desc: "Watch files occupy disk blocks in real time with color-coded visual feedback and block-level detail.",
             },
             {
-                title: "Event-Driven",
-                desc: "Architecture for workflows you can launch, pause, and resume—statefully and seamlessly.",
-            },
-        ],
-    },
-    {
-        number: "03",
-        title: "SaveSpace",
-        description:
-            "SaveSpace is a developer-first agent framework that rapidly accelerates time-to-production of GenAI applications with trusted low and high-level abstractions. Optimized for agents, RAG, custom workflows, and integrations.",
-        image: "/assets/imgi_28_b56f30bb1df5c39ff007ec16c9af133d629148a6-1616x1616.png",
-        buttonLabel: "START BUILDING",
-        bullets: [
-            {
-                title: "Modular building blocks",
-                desc: "Start building with core components like state, memory, human-in-the-loop review, reflection, and more.",
-            },
-            {
-                title: "Developer-First",
-                desc: "Fully-featured Python and Typescript SDKs that easily embed into your existing tech stack.",
-            },
-            {
-                title: "Integrate Anywhere",
-                desc: "Pre-built third party connectors for LLMs, data sources, vector DBs, and more.",
+                title: "Fragmentation Analysis",
+                desc: "Understand how fragmentation builds up and how different allocation strategies handle it differently.",
             },
         ],
     },
 ];
 
-/* ───────── Single Sticky Product Card ───────── */
-const StickyProductCard = ({ product, index }: { product: ProductData; index: number }) => {
+
+const FeatureCard = ({ feature, index, sticky }: { feature: FeatureData; index: number; sticky: boolean }) => {
     return (
         <div
-            className="sticky h-screen w-full bg-white flex items-center"
-            style={{
-                top: "90px",
-                zIndex: 10 + index,
-                borderTop: "1px solid #e5e7eb",
-            }}
+            className={sticky ? "sticky h-screen w-full bg-white flex items-center" : "relative w-full bg-white py-14 sm:py-16"}
+            style={sticky
+                ? { top: "90px", zIndex: 10 + index, borderTop: "1px solid #e5e7eb" }
+                : { borderTop: "1px solid #e5e7eb" }}
         >
-            <div className="w-full" style={{ padding: "0 40px" }}>
+            <div className="w-full px-4 sm:px-6 lg:px-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start max-w-[1400px] mx-auto">
-                    {/* Left Column: Number + Title + Description + Button */}
+
                     <div className="lg:col-span-3 flex flex-col justify-start pt-4">
                         <span
-                            className="inline-flex items-center gap-2 text-[11px] font-bold text-black uppercase block mb-3"
+                            className="inline-flex items-center gap-2 text-[12px] font-bold text-black uppercase block mb-3"
                             style={{ letterSpacing: "1.5px" }}
                         >
                             <span className="w-[5px] h-[5px] bg-black inline-block" />
-                            {product.number}
+                            {feature.number}
                         </span>
                         <h3
                             style={{
-                                fontSize: "42px",
+                                fontSize: "clamp(2rem, 5vw, 2.625rem)",
                                 fontWeight: 500,
-                                letterSpacing: "-1.2px",
+                                letterSpacing: "-0.03em",
                                 lineHeight: "1.05",
                                 color: "#000",
                                 marginBottom: "16px",
                             }}
                         >
-                            {product.title}
+                            {feature.title}
                         </h3>
                         <p
-                            className="text-[13px] leading-[1.7] mb-8"
+                            className="text-[16px] leading-[1.65] mb-8"
                             style={{ color: "#6b7280", maxWidth: "280px" }}
                         >
-                            {product.description}
+                            {feature.description}
                         </p>
-                        <button
-                            className="text-[11px] font-medium text-white uppercase bg-black hover:bg-gray-800 transition-all inline-flex items-center justify-center self-start cursor-pointer"
-                            style={{
-                                letterSpacing: "1.5px",
-                                padding: "12px 24px",
-                                height: "42px",
-                            }}
-                        >
-                            {product.buttonLabel}
-                        </button>
+                        <Link to={feature.buttonLink}>
+                            <button
+                                className="text-[12px] font-medium text-white uppercase bg-black hover:bg-gray-800 transition-all inline-flex items-center justify-center self-start cursor-pointer"
+                                style={{
+                                    letterSpacing: "1.5px",
+                                    padding: "12px 24px",
+                                    height: "44px",
+                                }}
+                            >
+                                {feature.buttonLabel}
+                            </button>
+                        </Link>
                     </div>
 
-                    {/* Center Column: Product Image */}
+
                     <div className="lg:col-span-6 flex items-center justify-center">
                         <img
-                            src={product.image}
-                            alt={product.title}
+                            src={feature.image}
+                            alt={feature.title}
                             className="w-full max-w-xl h-auto"
                             style={{ filter: "drop-shadow(0 4px 20px rgba(0,0,0,0.06))" }}
                         />
                     </div>
 
-                    {/* Right Column: Bullet Points */}
+
                     <div className="lg:col-span-3 flex flex-col gap-8 pt-4">
-                        {product.bullets.map((b, i) => (
+                        {feature.bullets.map((b, i) => (
                             <div key={i}>
                                 <h4
-                                    className="text-[16px] font-medium text-black mb-2 flex items-start gap-2"
+                                    className="text-[19px] font-medium text-black mb-2 flex items-start gap-2"
                                 >
                                     <span className="text-gray-400 mt-0.5">•</span>
                                     {b.title}
                                 </h4>
-                                <p className="text-[13px] leading-relaxed pl-5" style={{ color: "#6b7280" }}>
+                                <p className="text-[15px] leading-relaxed pl-5" style={{ color: "#6b7280" }}>
                                     {b.desc}
                                 </p>
                             </div>
@@ -164,7 +146,7 @@ const StickyProductCard = ({ product, index }: { product: ProductData; index: nu
     );
 };
 
-/* ───────── Main Export ───────── */
+
 export const ProcessFlow = () => {
     const sectionRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -172,17 +154,16 @@ export const ProcessFlow = () => {
         offset: ["start start", "end end"],
     });
 
-    // Animate header opacity based on scroll
     const headerOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
     const headerY = useTransform(scrollYProgress, [0, 0.08], [0, -40]);
 
     return (
         <section ref={sectionRef} className="relative bg-white">
-            {/* Section Header — fades out as you scroll into cards */}
-            <div className="relative" style={{ padding: "0 40px" }}>
+
+            <div className="relative px-4 sm:px-6 lg:px-10">
                 <motion.div
                     style={{ opacity: headerOpacity, y: headerY }}
-                    className="text-center py-24"
+                    className="text-center py-20 sm:py-24"
                 >
                     <span
                         className="inline-flex items-center gap-2 text-[11px] font-bold text-black uppercase mb-5"
@@ -200,17 +181,23 @@ export const ProcessFlow = () => {
                             color: "#000",
                         }}
                     >
-                        From document chaos
+                        Two powerful tools,
                         <br />
-                        to intelligent automation
+                        one platform
                     </h2>
                 </motion.div>
             </div>
 
-            {/* Sticky cards container — each card is 100vh, total 300vh */}
-            <div style={{ height: `${products.length * 100}vh` }}>
-                {products.map((product, idx) => (
-                    <StickyProductCard key={idx} product={product} index={idx} />
+
+            <div className="lg:hidden">
+                {features.map((feature, idx) => (
+                    <FeatureCard key={idx} feature={feature} index={idx} sticky={false} />
+                ))}
+            </div>
+
+            <div className="hidden lg:block" style={{ height: `${features.length * 100}vh` }}>
+                {features.map((feature, idx) => (
+                    <FeatureCard key={idx} feature={feature} index={idx} sticky={true} />
                 ))}
             </div>
         </section>
