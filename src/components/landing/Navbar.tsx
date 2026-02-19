@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Github, X, Linkedin, Youtube } from "lucide-react";
+import { Github } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const Navbar = () => {
@@ -20,19 +20,6 @@ export const Navbar = () => {
             className="sticky top-0 z-50 flex flex-col"
             style={{ position: "sticky" }}
         >
-            {/* Top Banner — smoothly collapses on scroll */}
-            <div
-                className="bg-[#6366F1] text-white text-[11px] text-center font-normal tracking-wide antialiased hover:bg-[#5558E6] cursor-pointer overflow-hidden"
-                style={{
-                    maxHeight: scrolled ? "0px" : "40px",
-                    padding: scrolled ? "0" : "8px 0",
-                    opacity: scrolled ? 0 : 1,
-                    transition: "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease",
-                }}
-            >
-                <span>2/26 Webinar: Lessons on Scaling Document Ingestion for AI Agents with StackAI</span>
-            </div>
-
             {/* Navbar — expands from floating to full-width on scroll */}
             <nav
                 className="bg-white flex items-stretch justify-between"
