@@ -1,72 +1,118 @@
-# TriCoreFS
+# savespace
 
-[Live Demo](https://tri-core-fs.vercel.app)
 
-Visual File System Simulator — an interactive tool for learning how operating systems manage disk storage.
+[Live Demo](https://savespacex.vercel.app)
 
-## Overview
+savespace is an educational web app for understanding file systems through interactive simulation.  
+It combines a modern landing experience with a full visualization workspace and a Finder-style interface.
 
-TriCoreFS simulates a complete file system with a 512-block virtual disk. It visualizes the internals that are normally hidden by the OS: block allocation, inode management, directory structures, and permissions.
+## What You Get
 
-**Use it to understand:**
-- How files are stored across disk blocks
-- Trade-offs between allocation strategies
-- Why renaming is O(1) but copying is O(n)
-- How Unix-style permissions work
+- A visual file system simulator with disk block mapping
+- Multiple allocation strategies with live behavior differences
+- File/directory operations backed by simulated inode + block metadata
+- Fragmentation visibility and disk usage insights
+- Finder-style UX for interacting with simulated files
 
-## Demo
+## Route Map
 
-Create files, switch allocation strategies, and watch the disk blocks light up in real-time.
+| Route | Purpose |
+|---|---|
+| `/` | Product landing page |
+| `/visualization` | Main simulator workspace |
+| `/finder` | Finder-style file browser interface |
+| `/theory` | Concept explanation page |
+| `/roadmap` | Learning path / roadmap page |
 
-## Installation
+## Simulator Concepts
+
+The visualization module models:
+
+- `Inode`: file metadata and block pointers
+- `Directory`: name → inode mapping
+- `Disk`: block array + free bitmap
+- Allocation strategy behavior and trade-offs
+
+### Supported Allocation Strategies
+
+| Strategy | How it stores blocks | Access pattern | Fragmentation profile |
+|---|---|---|---|
+| Contiguous | Adjacent blocks | Fast sequential/random | External fragmentation risk |
+| Linked | Chained scattered blocks | Sequential-friendly | No external fragmentation |
+| Indexed | Index block + data blocks | Fast direct access | Index overhead |
+| Unix-style | Direct + indirect pointers | Scales to larger files | Balanced practical approach |
+
+## Project Structure
+
+```txt
+src/
+  App.tsx                        # Route setup
+  pages/
+    LandingPage.tsx
+    Index.tsx                    # /visualization page
+    FinderInterface.tsx
+    Theory.tsx
+    Roadmap.tsx
+  hooks/
+    useFileSystem.ts             # Simulator state/actions
+  lib/
+    filesystem.ts                # Core FS simulation logic
+  types/
+    filesystem.ts                # FS data model/types
+  components/
+    landing/                     # Landing page sections
+    FileList.tsx
+    FileInspector.tsx
+    DiskBlockVisual.tsx
+    DirectoryTree.tsx
+    ...                          # Other simulator UI parts
+```
+
+## Local Development
+
+### Prerequisites
+
+- Node.js 18+ (recommended)
+- npm 9+
+
+### Setup
 
 ```bash
-git clone https://github.com/nandu-99/TriCoreFS.git
+git clone <your-repo-url>
 cd TriCoreFS
 npm install
 npm run dev
 ```
 
-## Allocation Strategies
+Open the app at `http://localhost:5173`.
 
-| Strategy | Blocks | Access | Fragmentation |
-|----------|--------|--------|---------------|
-| Contiguous | Adjacent | O(1) | High |
-| Linked | Scattered + pointers | O(n) | None |
-| Indexed | Index block + data | O(1) | Index overhead |
-| Unix FFS | Direct + indirect ptrs | O(1) | Minimal |
+## Scripts
 
-## Architecture
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server |
+| `npm run build` | Build production bundle |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint checks |
+| `npm run test` | Run Vitest once |
+| `npm run test:watch` | Run Vitest in watch mode |
 
-```
-src/
-├── lib/filesystem.ts      # Core: allocate, free, create, delete
-├── types/filesystem.ts    # Inode, Block, Disk interfaces
-├── hooks/useFileSystem.ts # React state management
-└── components/            # UI: DiskBlockVisual, FileList, Inspector
-```
+## Notes for Contributors
 
-**Key abstractions:**
-- `Inode` — metadata (size, permissions, block pointers)
-- `Directory` — name → inode mappings
-- `Disk` — array of blocks + free bitmap
+- Visualization state persists to `localStorage` (key: `visual-fs-state`).
+- If behavior looks stale during local testing, clear browser local storage and reload.
+- Keep route contracts stable (`/visualization`, `/finder`, `/theory`, `/roadmap`) unless intentionally migrating links.
 
-## Tech
+## Tech Stack
 
-React 18 · TypeScript · Vite · Tailwind · shadcn/ui
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Radix UI / shadcn-style components
+- Framer Motion
+- Vitest
 
-## Commands
-
-| Command | Action |
-|---------|--------|
-| `npm run dev` | Dev server |
-| `npm run build` | Production build |
-| `npm run test` | Run tests |
-
-## Contributing
-
-PRs welcome. Fork → branch → commit → PR.
-
-### License
+## License
 
 MIT
