@@ -97,6 +97,17 @@
     --radius: 0rem;
     --font-saprona: 'Saprona';
     --font-mono: 'Saprona';
+
+    /* Visualization module tokens */
+    --block-free: 0 0% 92%;
+    --block-used: 0 0% 50%;
+    --block-selected: 0 0% 20%;
+    --block-border: 0 0% 70%;
+    --panel-bg: 0 0% 100%;
+    --panel-header: 0 0% 96%;
+    --panel-border: 0 0% 88%;
+    --item-hover: 0 0% 95%;
+    --item-selected: 0 0% 90%;
   }
 
   
@@ -135,5 +146,39 @@
   .llama-hero-gradient {
     background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 30%, #E0F2FE 60%, #E879F9 90%, #FDBA74 100%);
     opacity: 0.8;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-panel border border-panel-border;
+  }
+
+  .panel-header {
+    @apply bg-panel-header px-3 py-2 border-b border-panel-border font-semibold text-sm uppercase tracking-wide text-muted-foreground;
+  }
+
+  .tree-item {
+    @apply px-2 py-1.5 cursor-pointer hover:bg-item-hover transition-colors duration-75;
+  }
+
+  .tree-item-selected {
+    @apply bg-item-selected;
+  }
+
+  .disk-block {
+    @apply w-6 h-6 border border-block-border transition-colors duration-75;
+  }
+
+  .disk-block-free {
+    @apply bg-block-free;
+  }
+
+  .disk-block-used {
+    @apply bg-block-used;
+  }
+
+  .disk-block-selected {
+    @apply bg-block-selected;
   }
 }

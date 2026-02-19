@@ -52,6 +52,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        panel: {
+          DEFAULT: "hsl(var(--panel-bg))",
+          header: "hsl(var(--panel-header))",
+          border: "hsl(var(--panel-border))",
+        },
+        block: {
+          free: "hsl(var(--block-free))",
+          used: "hsl(var(--block-used))",
+          selected: "hsl(var(--block-selected))",
+          border: "hsl(var(--block-border))",
+        },
+        item: {
+          hover: "hsl(var(--item-hover))",
+          selected: "hsl(var(--item-selected))",
+        },
         
         llama: {
           dark: "#0F172A", 
