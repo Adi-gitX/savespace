@@ -1,18 +1,23 @@
-
+/**
+ * FileList Component
+ * 
+ * Displays files and folders in the currently selected directory.
+ * Provides CRUD operations: create, rename, delete files.
+ */
 
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
 } from '@/components/ui/dialog';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -47,13 +52,13 @@ export function FileList({
   const [showRenameDialog, setShowRenameDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showLinkDialog, setShowLinkDialog] = useState(false);
-
+  
   const [newFileName, setNewFileName] = useState('');
   const [newFileSize, setNewFileSize] = useState('4');
-
+  
   const [renameTarget, setRenameTarget] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
-
+  
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const handleCreateFile = () => {
@@ -95,7 +100,7 @@ export function FileList({
     setDeleteTarget(name);
     setShowDeleteDialog(true);
   };
-
+  
 
 
   if (!state || !currentDirectory) {
@@ -106,7 +111,7 @@ export function FileList({
     );
   }
 
-
+  // Sort entries: directories first, then files
   const sortedEntries = [...currentDirectory.entries].sort((a, b) => {
     const inodeA = state.inodes.get(a.inodeId);
     const inodeB = state.inodes.get(b.inodeId);
@@ -152,15 +157,16 @@ export function FileList({
               {sortedEntries.map(entry => {
                 const inode = state.inodes.get(entry.inodeId);
                 if (!inode) return null;
-
+                
                 const isSelected = entry.inodeId === selectedFileId;
                 const isDir = inode.type === 'directory';
-
+                
                 return (
                   <tr
                     key={entry.inodeId}
-                    className={`border-b cursor-pointer hover:bg-item-hover ${isSelected ? 'bg-item-selected' : ''
-                      }`}
+                    className={`border-b cursor-pointer hover:bg-item-hover ${
+                      isSelected ? 'bg-item-selected' : ''
+                    }`}
                     onClick={() => {
                       if (isDir) {
                         onSelectDirectory(entry.inodeId);
@@ -207,7 +213,7 @@ export function FileList({
                             <Edit2 className="w-4 h-4 mr-2" />
                             Rename
                           </DropdownMenuItem>
-
+                          
                           <DropdownMenuItem
                             onClick={() => openDeleteDialog(entry.name)}
                             className="text-destructive"
@@ -226,7 +232,7 @@ export function FileList({
         )}
       </div>
 
-
+      {/* New File Dialog */}
       <Dialog open={showNewFileDialog} onOpenChange={setShowNewFileDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -246,15 +252,15 @@ export function FileList({
             <div className="space-y-2">
               <Label>Quick Presets</Label>
               <div className="flex gap-2">
-                <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('4')}>
-                  Small (4KB)
-                </Button>
-                <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('64')}>
-                  Med (64KB)
-                </Button>
-                <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('300')}>
-                  Large (300KB)
-                </Button>
+                  <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('4')}>
+                    Small (4KB)
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('64')}>
+                    Med (64KB)
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" className="flex-1 text-xs" onClick={() => setNewFileSize('300')}>
+                    Large (300KB)
+                  </Button>
               </div>
             </div>
             <div className="space-y-2">
@@ -281,7 +287,7 @@ export function FileList({
         </DialogContent>
       </Dialog>
 
-
+      {/* Rename Dialog */}
       <Dialog open={showRenameDialog} onOpenChange={setShowRenameDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -305,7 +311,7 @@ export function FileList({
         </DialogContent>
       </Dialog>
 
-
+      {/* Delete Dialog */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

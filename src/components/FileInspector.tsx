@@ -1,4 +1,9 @@
-
+/**
+ * FileInspector Component
+ * 
+ * Displays detailed metadata about the selected file.
+ * Shows inode information and allocated disk blocks.
+ */
 
 import { InodePointerVisualization } from '@/components/InodePointerVisualization';
 import { PathVisualizer } from '@/components/PathVisualizer';
@@ -37,9 +42,9 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
       <div className="panel-header">
         <span>Inspector</span>
       </div>
-
+      
       <div className="flex-1 overflow-auto p-4 space-y-6">
-
+        {/* File icon and name */}
         <div className="flex items-center gap-3">
           <div className="p-3 bg-muted rounded">
             {isDir ? (
@@ -54,7 +59,7 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
           </div>
         </div>
 
-
+        {/* Metadata */}
         <div className="space-y-3">
           <div className="flex items-start gap-3">
             <Hash className="w-4 h-4 text-muted-foreground mt-0.5" />
@@ -90,8 +95,8 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
             <Shield className="w-4 h-4 text-muted-foreground mt-1" />
             <div className="flex-1">
               <PermissionEditor
-                permissions={selectedFile.permissions}
-                onChange={(newPerms) => onUpdatePermissions(selectedFile.id, newPerms)}
+                 permissions={selectedFile.permissions}
+                 onChange={(newPerms) => onUpdatePermissions(selectedFile.id, newPerms)}
               />
             </div>
           </div>
@@ -108,20 +113,20 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
             </div>
           )}
         </div>
-
-
+        
+        {/* Inode Pointer Visualization (Feature 2) */}
         {!isDir && <InodePointerVisualization inode={selectedFile} />}
 
-
+        {/* Path Visualization (Feature 3) */}
         <PathVisualizer state={state} path={path} />
 
-
+        {/* Block Pointers */}
         {!isDir && (
           <div className="pt-2 border-t">
             <h4 className="text-xs text-muted-foreground uppercase tracking-wide mb-3">
               Allocated Blocks ({selectedFile.blockPointers.length})
             </h4>
-
+            
             {selectedFile.blockPointers.length > 0 ? (
               <div className="space-y-2">
                 <div className="flex flex-wrap gap-1.5">
@@ -144,7 +149,7 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
           </div>
         )}
 
-
+        {/* OS Concept Note */}
         <div className="pt-2 border-t">
           <h4 className="text-xs text-muted-foreground uppercase tracking-wide mb-2">
             OS Concept
@@ -154,6 +159,12 @@ export function FileInspector({ selectedFile, selectedFileName, state, path, onU
               <>
                 Directories are special files that contain name→inode mappings.
                 The directory itself doesn't store file data—it only points to inodes.
+              </>
+            ) : selectedFile.allocationStrategy === 'fat' ? (
+              <>
+                In FAT, the directory entry stores only the <strong>first cluster</strong> number.
+                All subsequent clusters are found by following the chain in the global
+                File Allocation Table — no per-block pointers needed inside the data blocks.
               </>
             ) : (
               <>
