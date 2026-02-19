@@ -2,9 +2,11 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
+const paperLineWidths = ["42%", "56%", "64%", "72%", "81%", "88%", "67%", "53%"];
+
 export const FinalCTA = () => {
     return (
-        <section className="relative py-28 bg-[#f8fafc] overflow-hidden">
+        <section className="relative py-24 lg:py-28 bg-[#f8fafc] overflow-hidden">
             {/* Dot grid pattern */}
             <div
                 className="absolute inset-0 opacity-[0.03]"
@@ -14,9 +16,9 @@ export const FinalCTA = () => {
                 }}
             />
 
-            <div className="relative z-10" style={{ margin: "0 40px" }}>
+            <div className="relative z-10 px-4 sm:px-6 lg:px-10">
                 {/* Two-column layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-[1400px] mx-auto items-start">
                     {/* Left: Heading */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -26,20 +28,18 @@ export const FinalCTA = () => {
                     >
                         <h2
                             style={{
-                                fontSize: "52px",
+                                fontSize: "clamp(2.2rem, 4.6vw, 3.25rem)",
                                 fontWeight: 500,
-                                letterSpacing: "-1.56px",
-                                lineHeight: "57.2px",
+                                letterSpacing: "-0.03em",
+                                lineHeight: "1.08",
                                 color: "#000",
                             }}
                         >
-                            Start building
+                            Ready to
                             <br />
-                            your first
+                            organize
                             <br />
-                            document agent
-                            <br />
-                            today
+                            and learn?
                         </h2>
                     </motion.div>
 
@@ -51,34 +51,41 @@ export const FinalCTA = () => {
                         transition={{ duration: 0.6, delay: 0.15 }}
                         className="flex flex-col justify-start pt-2"
                     >
-                        <p className="text-[14px] text-gray-600 leading-[1.7] max-w-md mb-8">
-                            SaveSpace gets you from raw data to real
-                            automation — fast. Get started with SaveCloud or
-                            contact our team to learn more.
+                        <p className="text-[16px] text-gray-700 leading-[1.65] max-w-xl mb-8">
+                            Jump into the smart file organizer to clean up
+                            your folders, or explore how your operating system
+                            manages files under the hood with interactive
+                            visualizations and allocation strategy simulations.
                         </p>
                         <div className="flex flex-wrap items-center gap-3">
-                            <button
-                                className="text-[12px] font-normal text-black uppercase bg-white hover:bg-gray-50 transition-all"
-                                style={{
-                                    letterSpacing: "0.48px",
-                                    border: "1px solid #e7e7e7",
-                                    padding: "10px 24px",
-                                    height: "40px",
-                                }}
+                            <a
+                                href="https://github.com/Adi-gitX/savespace"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
-                                Contact Sales
-                            </button>
+                                <button
+                                    className="text-[13px] font-medium text-black uppercase bg-white hover:bg-gray-50 transition-all"
+                                    style={{
+                                        letterSpacing: "0.48px",
+                                        border: "1px solid #e7e7e7",
+                                        padding: "10px 24px",
+                                        height: "44px",
+                                    }}
+                                >
+                                    View on GitHub
+                                </button>
+                            </a>
                             <Link to="/visualization">
                                 <Button
-                                    className="text-[12px] font-normal text-white uppercase bg-black hover:bg-gray-900 transition-all"
+                                    className="text-[13px] font-medium text-white uppercase bg-black hover:bg-gray-900 transition-all"
                                     style={{
                                         letterSpacing: "0.48px",
                                         border: "1px solid black",
                                         padding: "10px 24px",
-                                        height: "40px",
+                                        height: "44px",
                                     }}
                                 >
-                                    Try SaveCloud
+                                    Launch App
                                 </Button>
                             </Link>
                         </div>
@@ -114,7 +121,7 @@ export const FinalCTA = () => {
                                         <div
                                             key={j}
                                             className="bg-gray-100"
-                                            style={{ height: "4px", width: `${40 + Math.random() * 50}%` }}
+                                            style={{ height: "4px", width: paperLineWidths[(i + j) % paperLineWidths.length] }}
                                         />
                                     ))}
                                 </div>
