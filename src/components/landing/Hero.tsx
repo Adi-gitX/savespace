@@ -1,62 +1,37 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
-/* ───────── Company Logo Data ───────── */
-const logoRowOne = [
-    { name: "C4ADS", cls: "font-black tracking-[0.06em] text-[11px]" },
-    { name: "CEMEX", cls: "font-black italic tracking-wider text-[12px]" },
-    { name: "3E Delphi", cls: "font-bold text-[12px]" },
-    { name: "EY", cls: "font-bold italic text-[16px]" },
-    { name: "KPMG", cls: "font-black tracking-[0.15em] text-[14px]" },
-    { name: "intel", cls: "font-normal text-[18px] tracking-wide" },
-    { name: "pepsi", cls: "font-bold italic text-[13px]" },
-    { name: "LexisNexis", cls: "italic font-medium text-[12px]" },
-    { name: "Foxen", cls: "font-extrabold text-[16px]" },
-    { name: "11x", cls: "font-bold text-[14px]" },
-    { name: "CARLYLE", cls: "font-medium tracking-[0.25em] text-[12px]" },
-];
-
-const logoRowTwo = [
-    { name: "SCOPELY", cls: "font-bold tracking-[0.08em] text-[10px]" },
-    { name: "ManpowerGroup", cls: "font-medium text-[11px]" },
-    { name: "MICHELIN", cls: "font-bold tracking-[0.2em] text-[11px]" },
-    { name: "Rakuten", cls: "font-extrabold tracking-tight text-[16px]" },
-    { name: "bp", cls: "font-bold text-[16px]" },
-    { name: "REDICA Systems", cls: "font-medium text-[10px] tracking-wide" },
-    { name: "Lovable", cls: "font-bold text-[13px] tracking-tight" },
-];
+import {
+    FolderTree,
+    BrickWall,
+    HardDrive,
+    ChartNoAxesColumnIncreasing,
+    MonitorCog,
+    GraduationCap,
+} from "lucide-react";
 
 export const Hero = () => {
     return (
-        <section className="relative w-full pt-28 sm:pt-32 pb-0 overflow-visible bg-white">
-            {/* ──────── TOP: Heading Left + Description Right — exact SaveSpace layout ──────── */}
-            <div style={{ margin: "0 40px" }}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 items-start mb-10 lg:mb-14">
-                    {/* Left — Heading (exact: 56px, weight 500, letter-spacing -1.68px) */}
+        <section className="relative w-full pt-24 sm:pt-28 pb-0 overflow-visible bg-white">
+
+            <div className="px-4 sm:px-6 lg:px-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-start mb-10 lg:mb-14 max-w-[1400px] mx-auto">
+
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1
-                            style={{
-                                fontSize: "56px",
-                                fontWeight: 500,
-                                letterSpacing: "-1.68px",
-                                lineHeight: "61.6px",
-                                color: "#000",
-                            }}
-                        >
-                            The new standard for
+                        <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: "1.05", color: "#000" }}>
+                            Organize your files.
                             <br />
-                            complex document
+                            Understand
                             <br />
-                            processing
+                            your OS.
                         </h1>
                     </motion.div>
 
-                    {/* Right — Description + Buttons */}
+
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -71,37 +46,43 @@ export const Hero = () => {
                                 letterSpacing: "0",
                                 color: "#000",
                             }}
-                            className="mb-7"
+                            className="mb-8"
                         >
-                            SaveSpace delivers the world's most
+                            SaveSpace helps you instantly organize
                             <br />
-                            accurate agentic OCR and document-
+                            messy folders by file type — and learn
                             <br />
-                            specific AI workflows, powering complete
+                            how operating systems manage files
                             <br />
-                            enterprise automation
+                            under the hood with interactive visualizations.
                         </p>
                         <div className="flex items-center gap-2">
-                            <button
-                                className="text-[11px] font-medium text-black uppercase bg-white hover:bg-gray-50 transition-all inline-flex items-center justify-center cursor-pointer tracking-[0.08em]"
-                                style={{
-                                    border: "1px solid #e0e0e0",
-                                    padding: "0 18px",
-                                    height: "36px",
-                                }}
+                            <a
+                                href="https://github.com/Adi-gitX/savespace"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
-                                Contact Sales
-                            </button>
+                                <button
+                                    className="text-[12px] font-medium text-black uppercase bg-white hover:bg-gray-50 transition-all inline-flex items-center justify-center cursor-pointer tracking-[0.08em]"
+                                    style={{
+                                        border: "1px solid #e0e0e0",
+                                        padding: "0 18px",
+                                        height: "36px",
+                                    }}
+                                >
+                                    View on GitHub
+                                </button>
+                            </a>
                             <Link to="/visualization">
                                 <Button
-                                    className="text-[11px] font-medium text-white uppercase bg-black hover:bg-gray-900 transition-all tracking-[0.08em]"
+                                    className="text-[12px] font-medium text-white uppercase bg-black hover:bg-gray-900 transition-all tracking-[0.08em]"
                                     style={{
                                         border: "1px solid black",
                                         padding: "0 18px",
                                         height: "36px",
                                     }}
                                 >
-                                    Sign Up
+                                    Launch App
                                 </Button>
                             </Link>
                         </div>
@@ -109,7 +90,7 @@ export const Hero = () => {
                 </div>
             </div>
 
-            {/* ──────── 3D VISUAL + HORIZONTAL GRADIENT ──────── */}
+
             <div className="relative w-full">
                 <div
                     className="absolute inset-0"
@@ -119,12 +100,12 @@ export const Hero = () => {
                 />
                 <div className="absolute inset-x-0 top-0 h-[45%] bg-gradient-to-b from-white to-transparent z-[1]" />
 
-                <div className="relative z-10 flex flex-col items-center" style={{ margin: "0 40px" }}>
+                <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-10">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 30 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="relative w-full max-w-3xl"
+                        className="relative w-full max-w-4xl"
                     >
                         <video
                             autoPlay
@@ -141,89 +122,92 @@ export const Hero = () => {
                     </motion.div>
                 </div>
 
-                {/* ──────── LOGO STRIP — Two Rows ──────── */}
+
                 <div className="relative z-10 pt-8 pb-6">
-                    <div className="flex justify-center items-center gap-5 sm:gap-8 lg:gap-12 flex-wrap px-10 mb-4">
-                        {logoRowOne.map((logo, i) => (
+                    <div className="mx-4 sm:mx-6 lg:mx-10 border-y border-black/10 py-5">
+                        <div className="max-w-[1400px] mx-auto">
+                            <div className="flex justify-center items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-3 px-1 flex-wrap">
+                        {[
+                            { label: "Smart File Sorting", icon: FolderTree },
+                            { label: "Allocation Strategies", icon: BrickWall },
+                            { label: "Disk Visualization", icon: HardDrive },
+                            { label: "Fragmentation Analysis", icon: ChartNoAxesColumnIncreasing },
+                            { label: "macOS Finder UI", icon: MonitorCog },
+                            { label: "Interactive Learning", icon: GraduationCap },
+                        ].map((item, i) => (
                             <span
                                 key={i}
-                                className={`text-black ${logo.cls} whitespace-nowrap opacity-80 hover:opacity-100 transition-opacity`}
+                                className="text-black text-[15px] sm:text-[16px] font-semibold tracking-[-0.01em] whitespace-nowrap transition-colors hover:text-black/80 flex items-center gap-2 py-1 leading-[1.35]"
                             >
-                                {logo.name}
+                                <item.icon className="w-[17px] h-[17px] text-black/85 shrink-0" strokeWidth={2} />
+                                {item.label}
                             </span>
                         ))}
                     </div>
-                    <div className="flex justify-center items-center gap-5 sm:gap-8 lg:gap-12 flex-wrap px-10">
-                        {logoRowTwo.map((logo, i) => (
-                            <span
-                                key={i}
-                                className={`text-black ${logo.cls} whitespace-nowrap opacity-70 hover:opacity-100 transition-opacity`}
-                            >
-                                {logo.name}
-                            </span>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* ──────── LLAMACLOUD FREE BANNER ──────── */}
+
             <div
-                className="relative w-full py-10"
+                className="relative w-full py-10 sm:py-12"
                 style={{
                     background: "linear-gradient(to bottom, #f0abfc, #fdba74, #fef3c7, white)",
                 }}
             >
-                <div style={{ margin: "0 40px" }}>
+                <div className="px-4 sm:px-6 lg:px-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="bg-white shadow-md p-6 sm:p-8 max-w-5xl mx-auto"
-                        style={{ border: "1px solid #e7e7e7" }}
+                        className="bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] max-w-[1400px] w-full mx-auto px-5 py-6 md:px-8 md:py-8 xl:px-10 xl:py-9"
+                        style={{ border: "1px solid #e5e7eb" }}
                     >
-                        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                            <div className="flex-shrink-0">
+                        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-7 xl:gap-8 items-start xl:items-center">
+                            <div className="xl:col-span-4">
                                 <h3
                                     style={{
-                                        fontSize: "24px",
+                                        fontSize: "clamp(1.75rem, 2.5vw, 2.5rem)",
                                         fontWeight: 500,
-                                        letterSpacing: "-0.48px",
-                                        lineHeight: "1.2",
+                                        letterSpacing: "-0.02em",
+                                        lineHeight: "1.22",
                                         color: "#000",
                                     }}
                                 >
-                                    Get started with SaveCloud{" "}
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 italic">
-                                        for free
+                                    Completely
+                                    <br />
+                                    <span className="inline-block pr-[0.08em] pb-[0.02em] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 italic">
+                                        free & open source
                                     </span>
                                 </h3>
                             </div>
 
-                            <div className="flex-1">
-                                <p className="text-[12px] font-medium text-gray-700 mb-2">
-                                    Our free plan includes:
+                            <div className="xl:col-span-6 pl-1 sm:pl-2 xl:pl-4">
+                                <p className="text-[16px] font-semibold text-gray-800 mb-3">
+                                    What's included:
                                 </p>
-                                <ul className="space-y-0.5 text-[11px] text-gray-500 leading-relaxed">
-                                    <li>• 10,000 free credits per month (~1,000 pages)</li>
-                                    <li>• Agentic OCR for layout-aware document parsing</li>
-                                    <li>• Structured extraction of defined schemas</li>
-                                    <li>• Build and deploy end-to-end document agents</li>
+                                <ul className="list-disc pl-5 space-y-2 text-[16px] text-gray-700 leading-[1.6]">
+                                    <li>Smart file organizer with macOS Finder-style interface</li>
+                                    <li>Interactive OS file system allocation strategy simulator</li>
+                                    <li>Real-time disk block visualization and fragmentation analysis</li>
+                                    <li>Educational tool for OS concepts, perfect for students</li>
                                 </ul>
                             </div>
 
-                            <div className="flex-shrink-0">
+                            <div className="xl:col-span-2 xl:justify-self-end">
                                 <Link to="/visualization">
                                     <Button
-                                        className="text-[12px] font-normal text-white uppercase bg-black hover:bg-gray-900 transition-all whitespace-nowrap"
+                                        className="text-[13px] font-medium text-white uppercase bg-black hover:bg-gray-900 transition-all whitespace-nowrap w-full xl:w-auto"
                                         style={{
                                             letterSpacing: "0.48px",
                                             border: "1px solid black",
-                                            padding: "8px 20px",
-                                            height: "36px",
+                                            padding: "10px 26px",
+                                            height: "44px",
                                         }}
                                     >
-                                        Try SaveCloud
+                                        Launch App
                                     </Button>
                                 </Link>
                             </div>
