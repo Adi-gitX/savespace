@@ -1,9 +1,4 @@
-/**
- * DirectoryTree Component
- * 
- * Displays the hierarchical structure of directories in a tree view.
- * Allows navigation and folder creation.
- */
+
 
 import { useState } from 'react';
 import { ChevronRight, ChevronDown, Folder, FolderPlus } from 'lucide-react';
@@ -48,8 +43,8 @@ function TreeNode({
 }: TreeNodeProps) {
   const isSelected = directory.inodeId === selectedDirId;
   const isExpanded = expandedDirs.has(directory.inodeId);
-  
-  // Get child directories
+
+
   const childDirs = directory.entries
     .filter(entry => {
       const inode = state.inodes.get(entry.inodeId);
@@ -90,7 +85,7 @@ function TreeNode({
         <Folder className="w-4 h-4 text-muted-foreground" />
         <span className="text-sm truncate">{name}</span>
       </div>
-      
+
       {isExpanded && childDirs.map(child => (
         <TreeNode
           key={child.directory.inodeId}
@@ -135,7 +130,7 @@ export function DirectoryTree({
       onCreateDirectory(newFolderName.trim());
       setNewFolderName('');
       setShowNewFolderDialog(false);
-      // Expand the current directory to show the new folder
+
       setExpandedDirs(prev => new Set([...prev, selectedDirId]));
     }
   };
@@ -164,7 +159,7 @@ export function DirectoryTree({
           <FolderPlus className="w-4 h-4" />
         </Button>
       </div>
-      
+
       <div className="flex-1 overflow-auto py-1">
         {rootDir && (
           <TreeNode
