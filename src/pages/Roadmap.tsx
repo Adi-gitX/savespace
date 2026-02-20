@@ -1,4 +1,3 @@
-
 import React from "react";
 import Spline from "@splinetool/react-spline";
 import { Navbar } from "@/components/landing/Navbar";
@@ -62,16 +61,21 @@ const ArticleCard = ({
     date,
     tags,
     bgComponent,
-    highlight = false
+    highlight = false,
+    onHover
 }: {
     title: string,
     date: string,
     tags: string[],
     bgComponent: React.ReactNode,
-    highlight?: boolean
+    highlight?: boolean,
+    onHover?: () => void
 }) => {
     return (
-        <div className={`group cursor-pointer flex flex-col h-full ${highlight ? "mb-12" : ""}`}>
+        <div
+            className={`group cursor-pointer flex flex-col h-full ${highlight ? "mb-12" : ""}`}
+            onMouseEnter={onHover}
+        >
             { }
             <div className={`relative w-full overflow-hidden mb-6 border border-gray-100 transition-all duration-500 group-hover:border-gray-300 ${highlight ? "aspect-[1.7/1] md:aspect-[2.1/1]" : "aspect-[16/10]"}`}>
                 {bgComponent}
@@ -94,12 +98,6 @@ const ArticleCard = ({
 };
 
 const Roadmap = () => {
-    const handleSplineLoad = (splineApp: any) => {
-        setTimeout(() => {
-            splineApp.stop();
-        }, 6500);
-    };
-
     return (
         <div className="min-h-screen bg-white text-black font-sans selection:bg-pink-100 selection:text-pink-900">
             <Navbar />
@@ -136,11 +134,12 @@ const Roadmap = () => {
                                 bgComponent={
                                     <div className="absolute inset-0 overflow-hidden bg-[#f3f4f6]">
                                         {/* Spline: oversized container so scene renders fully — card overflow-hidden clips the edges cleanly */}
-                                        <div style={{ position: "absolute", top: "-18%", left: "-3%", right: "-3%", bottom: "-10%" }}>
+                                        <div
+                                            style={{ position: "absolute", top: "-18%", left: "-3%", right: "-3%", bottom: "-10%" }}
+                                        >
                                             <Spline
                                                 scene="https://prod.spline.design/1M3mBFdc89sTQ5J3/scene.splinecode"
                                                 style={{ width: "100%", height: "100%" }}
-                                                onLoad={handleSplineLoad}
                                             />
                                         </div>
                                     </div>
