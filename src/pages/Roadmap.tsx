@@ -1,5 +1,6 @@
 
 import React from "react";
+import Spline from "@splinetool/react-spline";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { ArrowRight } from "lucide-react";
@@ -9,12 +10,12 @@ const GeoPattern1 = () => (
     <div className="absolute inset-0 overflow-hidden bg-[#f3f4f6]">
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-60" />
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-tr from-pink-200 to-orange-100 rounded-full blur-2xl opacity-60" />
-        {}
+        { }
         <div
             className="absolute inset-0 opacity-[0.03]"
             style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "40px 40px" }}
         />
-        {}
+        { }
         <div className="absolute bottom-0 right-0 w-full h-2/3 bg-gradient-to-t from-white/80 to-transparent" />
     </div>
 );
@@ -71,14 +72,14 @@ const ArticleCard = ({
 }) => {
     return (
         <div className={`group cursor-pointer flex flex-col h-full ${highlight ? "mb-12" : ""}`}>
-            {}
-            <div className={`relative w-full overflow-hidden mb-6 border border-gray-100 transition-all duration-500 group-hover:border-gray-300 ${highlight ? "aspect-[2/1] md:aspect-[2.5/1]" : "aspect-[16/10]"}`}>
+            { }
+            <div className={`relative w-full overflow-hidden mb-6 border border-gray-100 transition-all duration-500 group-hover:border-gray-300 ${highlight ? "aspect-[1.7/1] md:aspect-[2.1/1]" : "aspect-[16/10]"}`}>
                 {bgComponent}
-                {}
+                { }
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
             </div>
 
-            {}
+            { }
             <div className="flex flex-col">
                 {highlight && (
                     <span className="text-lg font-medium mb-2 block">Feature Highlight:</span>
@@ -93,6 +94,12 @@ const ArticleCard = ({
 };
 
 const Roadmap = () => {
+    const handleSplineLoad = (splineApp: any) => {
+        setTimeout(() => {
+            splineApp.stop();
+        }, 6500);
+    };
+
     return (
         <div className="min-h-screen bg-white text-black font-sans selection:bg-pink-100 selection:text-pink-900">
             <Navbar />
@@ -100,7 +107,7 @@ const Roadmap = () => {
             <main className="pt-32 pb-20 px-6 sm:px-10">
                 <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                    {}
+                    { }
                     <aside className="lg:col-span-2 hidden lg:block sticky top-32 h-fit">
                         <h4 className="text-[12px] font-bold mb-6">Topics</h4>
                         <ul className="space-y-1">
@@ -116,21 +123,32 @@ const Roadmap = () => {
                         </ul>
                     </aside>
 
-                    {}
+                    { }
                     <div className="lg:col-span-10">
 
-                        {}
+                        {/* Hero highlight card with Spline 3D scene */}
                         <div className="mb-20">
                             <ArticleCard
                                 highlight
                                 title="Beyond Native Finder: Why Visual Storage Intelligence Matters"
                                 date="FEB 19, 2026"
                                 tags={["STORAGE INTELLIGENCE", "VISUALIZATION"]}
-                                bgComponent={<GeoPattern1 />}
+                                bgComponent={
+                                    <div className="absolute inset-0 overflow-hidden bg-[#f3f4f6]">
+                                        {/* Spline: oversized container so scene renders fully — card overflow-hidden clips the edges cleanly */}
+                                        <div style={{ position: "absolute", top: "-18%", left: "-3%", right: "-3%", bottom: "-10%" }}>
+                                            <Spline
+                                                scene="https://prod.spline.design/1M3mBFdc89sTQ5J3/scene.splinecode"
+                                                style={{ width: "100%", height: "100%" }}
+                                                onLoad={handleSplineLoad}
+                                            />
+                                        </div>
+                                    </div>
+                                }
                             />
                         </div>
 
-                        {}
+                        { }
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 mb-24">
 
                             <ArticleCard
@@ -164,7 +182,7 @@ const Roadmap = () => {
 
                         </div>
 
-                        {}
+                        { }
                         <div className="border border-gray-200 p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 bg-white">
                             <div className="max-w-xl">
                                 <h3 className="text-2xl font-bold mb-4">Get updates on the roadmap</h3>
@@ -186,7 +204,7 @@ const Roadmap = () => {
                             </div>
                         </div>
 
-                        {}
+                        { }
                         <div className="mt-24">
                             <h4 className="text-2xl font-bold mb-10">Latest RFCs</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
